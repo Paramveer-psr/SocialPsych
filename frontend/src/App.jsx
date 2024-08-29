@@ -1,16 +1,9 @@
-import { useState } from "react";
-
-import "./output.css";
-import SignIn from "./components/SignIn";
-import SignUp from "./components/SignUp";
+import { Outlet } from "react-router-dom";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
-      {/* <SignIn /> */}
-      <SignUp />
+      <Outlet />
     </>
   );
 }
