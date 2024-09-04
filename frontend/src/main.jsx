@@ -14,7 +14,7 @@ import "./output.css";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-      <Route path="/sign-in" element={<SignIn />} />
+      <Route path="/sign-in" element={<SignI />} />
       <Route path="/sign-up" element={<SignUp />} />
     </Route>
   )
