@@ -1,4 +1,50 @@
+import { useState } from "react";
+import axios from "axios";
+import { signUpRoute } from "../utils/ApiRoutes";
+import { Link, useNavigate } from "react-router-dom";
+
 const SignUp = () => {
+  const navigate = useNavigate();
+  const [values, setValues] = useState({
+    email: "",
+    name: "",
+    username: "",
+    password: "",
+  });
+
+  const handleInput = (event) => {
+    setValues({ ...values, [event.target.name]: event.target.value });
+    console.log(values);
+  };
+  const handleValidation = () => {
+    const { username, password, email, name } = values;
+    if (
+      [username, password, email, name].some((field) => field.trim() === "")
+    ) {
+      console.log("All fields are required", values);
+      return false;
+    }
+    return true;
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (handleValidation()) {
+      const { username, password, email, name } = values;
+      const { data } = await axios.post(signUpRoute, {
+        username,
+        password,
+        email,
+        name,
+      });
+
+      if (data.success === false) {
+        return;
+      }
+      navigate("/");
+    }
+  };
+
   return (
     <section class="bg-gray-50 dark:bg-gray-900">
       <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -33,6 +79,7 @@ const SignUp = () => {
                   class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="username"
                   required=""
+                  onChange={handleInput}
                 />
               </div>
               <div>
@@ -49,6 +96,7 @@ const SignUp = () => {
                   class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="name"
                   required=""
+                  onChange={handleInput}
                 />
               </div>
               <div>
@@ -65,6 +113,7 @@ const SignUp = () => {
                   class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="name@company.com"
                   required=""
+                  onChange={handleInput}
                 />
               </div>
               <div>
@@ -81,6 +130,7 @@ const SignUp = () => {
                   placeholder="••••••••"
                   class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required=""
+                  onChange={handleInput}
                 />
               </div>
               {/* <div class="flex items-center justify-between">
@@ -113,17 +163,18 @@ const SignUp = () => {
               <button
                 type="submit"
                 class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                onClick={handleSubmit}
               >
                 Sign Up
               </button>
               <p class="text-sm font-light text-gray-500 dark:text-gray-400">
                 Already have an account?{" "}
-                <a
-                  href="#"
+                <Link
+                  to="/sign-in"
                   class="font-medium text-primary-600 hover:underline dark:text-primary-500"
                 >
                   Sign-In
-                </a>
+                </Link>
               </p>
             </form>
           </div>
