@@ -51,11 +51,22 @@ function SidebarWithCta() {
             />
           }
         >
+          <a  className="flex items-center">
+            <img
+              src="https://flowbite.com/docs/images/logo.svg"
+              className="mr-3 h-6 sm:h-9"
+              alt="Flowbite Logo"
+            />
+            <span className="center text-xl font-semibold whitespace-nowrap dark:text-white  ">
+              SOCIALPSYCH
+            </span>
+          </a>
           <ListItem className="p-0" selected={open === 1}>
             <AccordionHeader
               onClick={() => handleOpen(1)}
               className="border-b-0 p-3"
             >
+              
               <ListItemPrefix>
                 <PresentationChartBarIcon className="h-5 w-5" />
               </ListItemPrefix>
