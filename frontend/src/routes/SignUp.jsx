@@ -3,7 +3,9 @@ import axios from "axios";
 import { signUpRoute } from "../utils/ApiRoutes";
 import { Link, useNavigate } from "react-router-dom";
 
-const SignUp = () => {
+const SignUp = () => 
+  {
+   
   const navigate = useNavigate();
   const [values, setValues] = useState({
     email: "",
@@ -46,7 +48,8 @@ const SignUp = () => {
   };
 
   return (
-    <section class=" dark:bg-gray-900">
+    <section className="dark bg-gray-900 bg-gray-50">
+    <section class="  dark bg-gray-50 dark:bg-gray-900">
       <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <a
           href="#"
@@ -180,6 +183,7 @@ const SignUp = () => {
           </div>
         </div>
       </div>
+    </section>
     </section>
   );
 };
