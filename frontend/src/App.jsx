@@ -12,7 +12,7 @@ function App() {
 
   useEffect(() => {
     dispatch(checkAuth());
-    console.log(isAuthenticated);
+    //console.log(isAuthenticated);
   }, [dispatch]);
   // const navigate = useNavigate();
   return (

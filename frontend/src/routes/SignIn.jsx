@@ -47,8 +47,6 @@ const SignIn = () => {
       if (data.success === false) {
         return;
       }
-      const token = cookie.get("accessToken");
-      console.log(token);
       dispatch(checkAuth(data.message.accessToken));
       navigate("/");
     }

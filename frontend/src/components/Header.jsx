@@ -1,17 +1,11 @@
-import { useState } from "react";
+import Avatar from "./Avatar";
 
 const Header = () => {
-  const [darkMode, setDarkMode] = useState(false);
-
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
-
   return (
-    <header className={darkMode ? "dark" : ""}>
+    <header className={"dark"}>
       <nav className="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
-          <a  className="flex items-center">
+          <a className="flex items-center">
             <img
               src="https://flowbite.com/docs/images/logo.svg"
               className="mr-3 h-6 sm:h-9"
@@ -22,18 +16,6 @@ const Header = () => {
             </span>
           </a>
           <div className="flex items-center lg:order-2">
-            <a
-              href="#"
-              className="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
-            >
-              Log in
-            </a>
-            <a
-              href="#"
-              className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
-            >
-              Get started
-            </a>
             <button
               data-collapse-toggle="mobile-menu-2"
               type="button"
@@ -67,17 +49,8 @@ const Header = () => {
                 ></path>
               </svg>
             </button>
-            {/* Dark Mode Toggle */}
-            <button
-              onClick={toggleDarkMode}
-              className="ml-4 text-gray-800 dark:text-white p-2 rounded-lg"
-            >
-              {darkMode ? "Light Mode" : "Dark Mode"}
-            </button>
-            <button className="dark:text-white"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-            </svg>
-            </button>
+
+            <Avatar />
           </div>
           <div
             className="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1"
