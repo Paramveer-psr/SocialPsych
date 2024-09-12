@@ -43,7 +43,7 @@ const SignIn = () => {
         { username, password },
         { withCredentials: true }
       );
-      console.log(data);
+      // console.log(data);
       if (data.success === false) {
         return;
       }

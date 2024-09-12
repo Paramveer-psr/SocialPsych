@@ -14,7 +14,7 @@ const Avatar = () => {
       { withCredentials: true }
     );
     dispatch(signOut());
-    console.log(data);
+    // console.log(data);
     if (data.success) {
       navigate("/sign-in");
     }
