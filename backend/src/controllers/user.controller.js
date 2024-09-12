@@ -84,11 +84,12 @@ const signIn = asyncHandler(async (req, res) => {
 
   const options = {
     httpOnly: true,
+    sameSite: "Strict",
     secure: true,
   };
   return res
     .status(200)
-    .cookie("accessToken", accessToken, options)
+    .cookie("accessToken", accessToken, { sameSite: "Strict" })
     .cookie("refreshToken", refreshToken, options)
     .json(
       new ApiResponse(200, "Sign-In Successfully", {

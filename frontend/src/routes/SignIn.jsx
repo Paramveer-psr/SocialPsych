@@ -2,10 +2,14 @@ import { useState } from "react";
 import axios from "axios";
 import { Form, Link, useNavigate } from "react-router-dom";
 import { signInRoute } from "../utils/ApiRoutes";
+import { checkAuth } from "../store/slices/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import cookie from "js-cookie";
 
 const SignIn = () => {
   const [values, setValues] = useState({ username: "", password: "" });
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleInput = (event) => {
     setValues({ ...values, [event.target.name]: event.target.value });
@@ -23,11 +27,18 @@ const SignIn = () => {
     event.preventDefault();
     if (handleValidation() === true) {
       const { username, password } = values;
-      const { data } = await axios.post(signInRoute, { username, password });
-
+      const { data } = await axios.post(
+        signInRoute,
+        { username, password },
+        { withCredentials: true }
+      );
+      console.log(data);
       if (data.success === false) {
         return;
       }
+      const token = cookie.get("accessToken");
+      console.log(token);
+      dispatch(checkAuth(data.message.accessToken));
       navigate("/");
     }
   };
