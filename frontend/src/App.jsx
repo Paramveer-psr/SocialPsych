@@ -5,6 +5,8 @@ import Home from "./routes/Home";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { checkAuth } from "./store/slices/authSlice";
+import Dashboard from "./routes/Dashboard";
+import ProfilePage from "./routes/ProfilePage";
 
 function App() {
   const dispatch = useDispatch();
@@ -23,23 +25,16 @@ function App() {
             <>
               <Route path="/sign-in" element={<SignIn />} />
               <Route path="/sign-up" element={<SignUp />} />
-              <Route
-                path="/"
-                element={
-                  isAuthenticated ? <Home /> : <Navigate to="/sign-in" />
-                }
-              />
+              <Route path="/" element={<Navigate to="/sign-in" />} />
             </>
           ) : (
             <>
-              <Route path="/sign-in" element={<Navigate to="/" />} />
-              <Route path="/sign-up" element={<Navigate to="/" />} />
-              <Route
-                path="/"
-                element={
-                  isAuthenticated ? <Home /> : <Navigate to="/sign-in" />
-                }
-              />
+              <Route path="/" element={<Home />}>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/profile" element={<ProfilePage />} />
+              </Route>
+
+              <Route path="*" element={<Navigate to="/" />} />
             </>
           )}
         </Routes>

@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import Header from "./Header";
-import SidebarWithCta from './SidebarWithCta';
+import React, { useState } from "react";
+import Header from "../components/Header";
+import SidebarWithCta from "../components/SidebarWithCta";
 
 const ProfilePage = () => {
   const [followers, setFollowers] = useState(500);
   const [following, setFollowing] = useState(300);
   const [posts, setPosts] = useState([
-    { id: 1, content: 'This is my first post!', timestamp: '2 hours ago' },
-    { id: 2, content: 'Loving the new React updates!', timestamp: '1 day ago' },
+    { id: 1, content: "This is my first post!", timestamp: "2 hours ago" },
+    { id: 2, content: "Loving the new React updates!", timestamp: "1 day ago" },
   ]);
 
   return (
@@ -35,29 +35,42 @@ const ProfilePage = () => {
                 <div className="ml-7">
                   <h1 className="text-3xl font-bold">John Doe</h1>
                   <p className="text-gray-400">@johndoe</p>
-                  <p className="mt-2 text-gray-500">Web Developer • Tech Enthusiast • Coffee Lover</p>
+                  <p className="mt-2 text-gray-500">
+                    Web Developer • Tech Enthusiast • Coffee Lover
+                  </p>
                 </div>
               </div>
               <div className="flex justify-between mt-4">
                 <div className="text-center">
-                  <p className="text-2xl font-semibold text-white">{followers}</p>
+                  <p className="text-2xl font-semibold text-white">
+                    {followers}
+                  </p>
                   <p className="text-gray-400">Followers</p>
                 </div>
                 <div className="text-center">
-                  <p className="text-2xl font-semibold text-white">{following}</p>
+                  <p className="text-2xl font-semibold text-white">
+                    {following}
+                  </p>
                   <p className="text-gray-400">Following</p>
                 </div>
                 <div className="text-center">
-                  <p className="text-2xl font-semibold text-white">{posts.length}</p>
+                  <p className="text-2xl font-semibold text-white">
+                    {posts.length}
+                  </p>
                   <p className="text-gray-400">Posts</p>
                 </div>
               </div>
             </header>
 
             <main className="w-full bg-gray-800 p-6 rounded-lg shadow-lg">
-              <h2 className="text-xl font-semibold mb-6 text-white">Recent Posts</h2>
-              {posts.map(post => (
-                <div key={post.id} className="border-b border-gray-700 pb-6 mb-6">
+              <h2 className="text-xl font-semibold mb-6 text-white">
+                Recent Posts
+              </h2>
+              {posts.map((post) => (
+                <div
+                  key={post.id}
+                  className="border-b border-gray-700 pb-6 mb-6"
+                >
                   <div className="flex items-center mb-2">
                     <img
                       src="https://via.placeholder.com/40"
@@ -71,9 +84,15 @@ const ProfilePage = () => {
                   </div>
                   <p className="text-gray-300 mb-4">{post.content}</p>
                   <div className="flex justify-between text-gray-300 text-sm">
-                    <button className="hover:text-indigo-400 transition">Like</button>
-                    <button className="hover:text-indigo-400 transition">Comment</button>
-                    <button className="hover:text-indigo-400 transition">Share</button>
+                    <button className="hover:text-indigo-400 transition">
+                      Like
+                    </button>
+                    <button className="hover:text-indigo-400 transition">
+                      Comment
+                    </button>
+                    <button className="hover:text-indigo-400 transition">
+                      Share
+                    </button>
                   </div>
                 </div>
               ))}

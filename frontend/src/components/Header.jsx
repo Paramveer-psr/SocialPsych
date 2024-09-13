@@ -2,7 +2,7 @@ import Avatar from "./Avatar";
 
 const Header = () => {
   return (
-    <header className={"dark"}>
+    <header className="fixed top-0 left-0 w-full z-50">
       <nav className="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
           <a className="flex items-center">
@@ -11,7 +11,7 @@ const Header = () => {
               className="mr-3 h-6 sm:h-9"
               alt="Flowbite Logo"
             />
-            <span className="center text-xl font-semibold whitespace-nowrap dark:text-white  ">
+            <span className="center text-xl font-semibold whitespace-nowrap dark:text-white">
               SOCIALPSYCH
             </span>
           </a>
@@ -49,7 +49,6 @@ const Header = () => {
                 ></path>
               </svg>
             </button>
-
             <Avatar />
           </div>
           <div

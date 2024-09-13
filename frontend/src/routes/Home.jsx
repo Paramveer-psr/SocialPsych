@@ -7,8 +7,12 @@ const Home = () => {
   return (
     <>
       <Header />
-      <SidebarWithCta></SidebarWithCta>
-      <Outlet />
+      <div className="flex">
+        <SidebarWithCta />
+        <main className="ml-64 mt-16 mb-16 p-4">
+          <Outlet />
+        </main>
+      </div>
       <Footer />
     </>
   );
