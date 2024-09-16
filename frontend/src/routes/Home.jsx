@@ -9,9 +9,7 @@ const Home = () => {
       <Header />
       <div className="flex">
         <SidebarWithCta />
-        <main className="ml-64 mt-16 mb-16 p-4">
-          <Outlet />
-        </main>
+        <Outlet />
       </div>
       <Footer />
     </>

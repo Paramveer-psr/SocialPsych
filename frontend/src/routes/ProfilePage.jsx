@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Header from "../components/Header";
-import SidebarWithCta from "../components/SidebarWithCta";
 
 const ProfilePage = () => {
   const [followers, setFollowers] = useState(500);
@@ -13,15 +12,10 @@ const ProfilePage = () => {
   return (
     <>
       <Header />
-      <div className="min-h-screen bg-gray-900 text-white flex">
-        {/* Sidebar Section */}
-        <div className="w-1/5 p-6 bg-gray-800">
-          <SidebarWithCta />
-        </div>
-
+      <div className="min-h-screen bg-gray-900 text-white  ml-64 mt-16 mb-16 ">
         {/* Main Content Section */}
         <div className="flex-auto p-6">
-          <div className="max-w-5xl mx-auto flex flex-col items-center py-10">
+          <div className="max-w-screen-2xl mx-auto flex flex-col items-center py-10">
             <header className="w-full bg-gradient-to-r from-purple-700 to-indigo-800 p-8 rounded-lg shadow-lg mb-10">
               <div className="flex items-center">
                 <div className="relative">
