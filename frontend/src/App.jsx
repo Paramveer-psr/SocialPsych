@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { checkAuth } from "./store/slices/authSlice";
 import Dashboard from "./routes/Dashboard";
 import ProfilePage from "./routes/ProfilePage";
+import { io } from "socket.io-client";
 
 function App() {
   const dispatch = useDispatch();
@@ -16,7 +17,14 @@ function App() {
     dispatch(checkAuth());
     //console.log(isAuthenticated);
   }, [dispatch]);
-  // const navigate = useNavigate();
+
+  useEffect(() => {
+    const socket = io("http://localhost:8000");
+    socket.on("connection", () => {
+      console.log("A user connected", socket.id);
+    });
+  }, []);
+
   return (
     <>
       <BrowserRouter>
