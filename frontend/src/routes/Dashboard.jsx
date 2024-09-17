@@ -77,6 +77,7 @@ function Dashboard() {
         <Post key={post.id} post={post} />
       ))}
     </div>
+    
   );
 }
 

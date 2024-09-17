@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Header from "../components/Header";
-import SidebarWithCta from "../components/SidebarWithCta";
 
 const ProfilePage = () => {
   const [followers, setFollowers] = useState(500);
@@ -67,6 +66,7 @@ const ProfilePage = () => {
                   className="w-32 h-32 rounded-full border-4 border-gray-900 shadow-lg"
                 />
                 <span className="absolute bottom-0 right-0 bg-green-400 w-6 h-6 rounded-full border-2 border-gray-900"></span>
+
               </div>
               <div className="ml-7 flex-1">
                 <h1 className="text-3xl font-bold">John Doe</h1>
