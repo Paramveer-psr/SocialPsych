@@ -3,9 +3,7 @@ import axios from "axios";
 import { signUpRoute } from "../utils/ApiRoutes";
 import { Link, useNavigate } from "react-router-dom";
 
-const SignUp = () => 
-  {
-   
+const SignUp = () => {
   const navigate = useNavigate();
   const [values, setValues] = useState({
     email: "",
@@ -13,178 +11,180 @@ const SignUp = () =>
     username: "",
     password: "",
   });
+  const [errors, setErrors] = useState({});
 
   const handleInput = (event) => {
     setValues({ ...values, [event.target.name]: event.target.value });
-    console.log(values);
   };
+
   const handleValidation = () => {
     const { username, password, email, name } = values;
-    if (
-      [username, password, email, name].some((field) => field.trim() === "")
-    ) {
-      console.log("All fields are required", values);
-      return false;
+    let isValid = true;
+    let errors = {};
+
+    if (!username.trim()) {
+      errors.username = "Username is required";
+      isValid = false;
     }
-    return true;
+    if (!name.trim()) {
+      errors.name = "Name is required";
+      isValid = false;
+    }
+    if (!email.trim()) {
+      errors.email = "Email is required";
+      isValid = false;
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      errors.email = "Email address is invalid";
+      isValid = false;
+    }
+    if (!password.trim()) {
+      errors.password = "Password is required";
+      isValid = false;
+    } else if (password.length < 6) {
+      errors.password = "Password must be at least 6 characters";
+      isValid = false;
+    }
+
+    setErrors(errors);
+    return isValid;
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (handleValidation()) {
-      const { username, password, email, name } = values;
-      const { data } = await axios.post(signUpRoute, {
-        username,
-        password,
-        email,
-        name,
-      });
+      try {
+        const { username, password, email, name } = values;
+        const { data } = await axios.post(signUpRoute, {
+          username,
+          password,
+          email,
+          name,
+        });
 
-      if (data.success === false) {
-        return;
+        if (data.success === false) {
+          console.error(data.message || "An error occurred");
+          // Optionally, handle specific errors from the response
+        } else {
+          navigate("/");
+        }
+      } catch (error) {
+        console.error("Signup failed:", error);
+        // Optionally, handle network or server errors
       }
-      navigate("/");
     }
   };
 
   return (
     <section className="dark bg-gray-900 bg-gray-50">
-    <section class="  dark bg-gray-50 dark:bg-gray-900">
-      <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-        <a
-          href="#"
-          class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
-        >
-          <img
-            class="w-8 h-8 mr-2"
-            src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
-            alt="logo"
-          />
-          Social Psych
-        </a>
-        <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-          <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-              Create your account
-            </h1>
-            <form class="space-y-4 md:space-y-6" action="#">
-              <div>
-                <label
-                  for="username"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Enter your username
-                </label>
-                <input
-                  type="username"
-                  name="username"
-                  id="username"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="username"
-                  required=""
-                  onChange={handleInput}
-                />
-              </div>
-              <div>
-                <label
-                  for="name"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Enter your name
-                </label>
-                <input
-                  type="name"
-                  name="name"
-                  id="name"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="name"
-                  required=""
-                  onChange={handleInput}
-                />
-              </div>
-              <div>
-                <label
-                  for="email"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Enter your email
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="name@company.com"
-                  required=""
-                  onChange={handleInput}
-                />
-              </div>
-              <div>
-                <label
-                  for="password"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Password
-                </label>
-                <input
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder="••••••••"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  required=""
-                  onChange={handleInput}
-                />
-              </div>
-              {/* <div class="flex items-center justify-between">
-                <div class="flex items-start">
-                  <div class="flex items-center h-5">
-                    <input
-                      id="remember"
-                      aria-describedby="remember"
-                      type="checkbox"
-                      class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                      required=""
-                    />
-                  </div>
-                  <div class="ml-3 text-sm">
-                    <label
-                      for="remember"
-                      class="text-gray-500 dark:text-gray-300"
-                    >
-                      Remember me
-                    </label>
-                  </div>
+      <section className="dark bg-gray-50 dark:bg-gray-900">
+        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+          <a
+            href="#"
+            className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
+          >
+            <img
+              className="w-8 h-8 mr-2"
+              src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
+              alt="logo"
+            />
+            Social Psych
+          </a>
+          <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+            <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+              <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                Create your account
+              </h1>
+              <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
+                <div>
+                  <label
+                    htmlFor="username"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Enter your username
+                  </label>
+                  <input
+                    type="text"
+                    name="username"
+                    id="username"
+                    className={`bg-gray-50 border ${errors.username ? 'border-red-500' : 'border-gray-300'} text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
+                    placeholder="username"
+                    onChange={handleInput}
+                  />
+                  {errors.username && <p className="text-red-500 text-sm">{errors.username}</p>}
                 </div>
-                <a
-                  href="#"
-                  class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
+                <div>
+                  <label
+                    htmlFor="name"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Enter your name
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    className={`bg-gray-50 border ${errors.name ? 'border-red-500' : 'border-gray-300'} text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
+                    placeholder="name"
+                    onChange={handleInput}
+                  />
+                  {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
+                </div>
+                <div>
+                  <label
+                    htmlFor="email"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Enter your email
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    className={`bg-gray-50 border ${errors.email ? 'border-red-500' : 'border-gray-300'} text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
+                    placeholder="name@company.com"
+                    onChange={handleInput}
+                  />
+                  {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+                </div>
+                <div>
+                  <label
+                    htmlFor="password"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    placeholder="••••••••"
+                    className={`bg-gray-50 border ${errors.password ? 'border-red-500' : 'border-gray-300'} text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
+                    onChange={handleInput}
+                  />
+                  {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
+                </div>
+                <button
+                  type="submit"
+                  className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 >
-                  Forgot password?
-                </a>
-              </div> */}
-              <button
-                type="submit"
-                class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                onClick={handleSubmit}
-              >
-                Sign Up
-              </button>
-              <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-                Already have an account?{" "}
-                <Link
-                  to="/sign-in"
-                  class="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >
-                  Sign-In
-                </Link>
-              </p>
-            </form>
+                  Sign Up
+                </button>
+                <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                  Already have an account?{" "}
+                  <Link
+                    to="/sign-in"
+                    className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                  >
+                    Sign-In
+                  </Link>
+                </p>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
     </section>
   );
 };
+
 export default SignUp;

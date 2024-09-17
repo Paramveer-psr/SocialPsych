@@ -10,7 +10,6 @@ import {
   Accordion,
   AccordionHeader,
   AccordionBody,
-  Alert,
 } from "@material-tailwind/react";
 import {
   PresentationChartBarIcon,
@@ -23,23 +22,23 @@ import {
 import {
   ChevronRightIcon,
   ChevronDownIcon,
-  CubeTransparentIcon,
 } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 
 function SidebarWithCta() {
   const [open, setOpen] = React.useState(0);
-  const [openAlert, setOpenAlert] = React.useState(true);
 
   const handleOpen = (value) => {
     setOpen(open === value ? 0 : value);
   };
 
   return (
-    <div className="fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-40">
-      <Card className="h-full w-full p-4 shadow-xl shadow-blue-gray-900/5">
+    <div className="fixed top-0 left-0 h-full w-64 bg-gray-900 shadow-lg z-40">
+      <Card className="h-full w-full p-4 shadow-xl bg-gray-800 text-white">
         <div className="mb-2 p-4">
-          <Typography variant="h5" color="blue-gray"></Typography>
+          <Typography variant="h5" color="white">
+            Menu
+          </Typography>
         </div>
         <List>
           <Accordion
@@ -59,9 +58,9 @@ function SidebarWithCta() {
                 className="border-b-0 p-3"
               >
                 <ListItemPrefix>
-                  <PresentationChartBarIcon className="h-5 w-5" />
+                  <PresentationChartBarIcon className="h-5 w-5 text-white" />
                 </ListItemPrefix>
-                <Typography color="blue-gray" className="mr-auto font-normal">
+                <Typography color="white" className="mr-auto font-normal">
                   Dashboard
                 </Typography>
               </AccordionHeader>
@@ -71,19 +70,28 @@ function SidebarWithCta() {
                 <List className="p-0">
                   <ListItem>
                     <ListItemPrefix>
-                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                      <ChevronRightIcon
+                        strokeWidth={3}
+                        className="h-3 w-5 text-white"
+                      />
                     </ListItemPrefix>
                     Analytics
                   </ListItem>
                   <ListItem>
                     <ListItemPrefix>
-                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                      <ChevronRightIcon
+                        strokeWidth={3}
+                        className="h-3 w-5 text-white"
+                      />
                     </ListItemPrefix>
                     Reporting
                   </ListItem>
                   <ListItem>
                     <ListItemPrefix>
-                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                      <ChevronRightIcon
+                        strokeWidth={3}
+                        className="h-3 w-5 text-white"
+                      />
                     </ListItemPrefix>
                     Projects
                   </ListItem>
@@ -108,9 +116,9 @@ function SidebarWithCta() {
                 className="border-b-0 p-3"
               >
                 <ListItemPrefix>
-                  <ShoppingBagIcon className="h-5 w-5" />
+                  <ShoppingBagIcon className="h-5 w-5 text-white" />
                 </ListItemPrefix>
-                <Typography color="blue-gray" className="mr-auto font-normal">
+                <Typography color="white" className="mr-auto font-normal">
                   E-Commerce
                 </Typography>
               </AccordionHeader>
@@ -120,13 +128,19 @@ function SidebarWithCta() {
                 <List className="p-0">
                   <ListItem>
                     <ListItemPrefix>
-                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                      <ChevronRightIcon
+                        strokeWidth={3}
+                        className="h-3 w-5 text-white"
+                      />
                     </ListItemPrefix>
                     Orders
                   </ListItem>
                   <ListItem>
                     <ListItemPrefix>
-                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                      <ChevronRightIcon
+                        strokeWidth={3}
+                        className="h-3 w-5 text-white"
+                      />
                     </ListItemPrefix>
                     Products
                   </ListItem>
@@ -134,10 +148,10 @@ function SidebarWithCta() {
               </AccordionBody>
             )}
           </Accordion>
-          <hr className="my-2 border-blue-gray-50" />
+          <hr className="my-2 border-gray-700" />
           <ListItem>
             <ListItemPrefix>
-              <InboxIcon className="h-5 w-5" />
+              <InboxIcon className="h-5 w-5 text-white" />
             </ListItemPrefix>
             Inbox
             <ListItemSuffix>
@@ -145,58 +159,32 @@ function SidebarWithCta() {
                 value="14"
                 size="sm"
                 variant="ghost"
-                color="blue-gray"
+                color="white"
                 className="rounded-full"
               />
             </ListItemSuffix>
           </ListItem>
           <ListItem>
             <ListItemPrefix>
-              <UserCircleIcon className="h-5 w-5" />
+              <UserCircleIcon className="h-5 w-5 text-white" />
             </ListItemPrefix>
-            <Link to="/profile">Profile</Link>
+            <Link to="/profile" className="text-white">
+              Profile
+            </Link>
           </ListItem>
           <ListItem>
             <ListItemPrefix>
-              <Cog6ToothIcon className="h-5 w-5" />
+              <Cog6ToothIcon className="h-5 w-5 text-white" />
             </ListItemPrefix>
             Settings
           </ListItem>
           <ListItem>
             <ListItemPrefix>
-              <PowerIcon className="h-5 w-5" />
+              <PowerIcon className="h-5 w-5 text-white" />
             </ListItemPrefix>
             Log Out
           </ListItem>
         </List>
-        <Alert
-          open={openAlert}
-          className="mt-auto"
-          onClose={() => setOpenAlert(false)}
-        >
-          <CubeTransparentIcon className="mb-4 h-12 w-12" />
-          <Typography variant="h6" className="mb-1">
-            Upgrade to PRO
-          </Typography>
-          <Typography variant="small" className="font-normal opacity-80">
-            Upgrade to Material Tailwind PRO and get even more components,
-            plugins, advanced features and premium.
-          </Typography>
-          <div className="mt-4 flex gap-3">
-            <Typography
-              as="a"
-              href="#"
-              variant="small"
-              className="font-medium opacity-80"
-              onClick={() => setOpenAlert(false)}
-            >
-              Dismiss
-            </Typography>
-            <Typography as="a" href="#" variant="small" className="font-medium">
-              Upgrade Now
-            </Typography>
-          </div>
-        </Alert>
       </Card>
     </div>
   );

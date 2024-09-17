@@ -6,15 +6,18 @@ import Footer from "../components/Footer";
 const Home = () => {
   return (
     <>
-      <Header />
-      <div className="flex">
-        <SidebarWithCta />
-        <main className="ml-64 mt-16 mb-16 p-4">
-          <Outlet />
-        </main>
+      <div className="dark bg-gray-900 text-gray-300 min-h-screen">
+        <Header />
+        <div className="flex">
+          <SidebarWithCta />
+          <main className="ml-64 mt-16 mb-16 p-4 bg-gray-900 text-gray-300">
+            <Outlet />
+          </main>
+        </div>
+        <Footer />
       </div>
-      <Footer />
     </>
   );
 };
+
 export default Home;

@@ -1,22 +1,33 @@
+import React, { useState } from 'react';
+
 const Post = () => {
+  
+  const [likes, setLikes] = useState(5);
+
+  
+  const handleLikeClick = () => {
+    setLikes(likes + 1);
+  };
+
   return (
-    <div className="pl-10">
-      <main class="h-full w-full bg-gray-50 flex items-center justify-center">
-        <div class="border max-w-screen-md bg-white mt-6 rounded-2xl p-4">
-          <div class="flex items-center	justify-between">
-            <div class="gap-3.5	flex items-center ">
+    <div className="pl-10 bg-gray-900">
+      <main className="h-full w-full bg-gray-900 flex items-center justify-center">
+        <div className="border border-gray-700 max-w-screen-md bg-gray-800 mt-6 rounded-2xl p-4">
+          <div className="flex items-center justify-between">
+            <div className="gap-3.5 flex items-center">
               <img
                 src="https://images.unsplash.com/photo-1617077644557-64be144aa306?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"
-                class="object-cover bg-yellow-500 rounded-full w-10 h-10"
+                className="object-cover bg-yellow-600 rounded-full w-10 h-10"
+                alt="User"
               />
-              <div class="flex flex-col">
-                <b class="mb-2 capitalize">sofia müller</b>
-                <time datetime="06-08-21" class="text-gray-400 text-xs">
+              <div className="flex flex-col">
+                <b className="mb-2 capitalize text-white">sofia müller</b>
+                <time datetime="06-08-21" className="text-gray-400 text-xs">
                   06 August at 09.15 PM
                 </time>
               </div>
             </div>
-            <div class="bg-gray-100	rounded-full h-3.5 flex	items-center justify-center">
+            <div className="bg-gray-100 rounded-full h-3.5 flex items-center justify-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="24px"
@@ -29,35 +40,35 @@ const Post = () => {
               </svg>
             </div>
           </div>
-          <div class="whitespace-pre-wrap mt-7">Hello guys ?</div>
-          <div class="mt-5 flex gap-2	 justify-center border-b pb-4 flex-wrap	">
+          <div className="whitespace-pre-wrap mt-7">Hello guys ?</div>
+          <div className="mt-5 flex gap-2 justify-center border-b pb-4 flex-wrap">
             <img
               src="https://images.unsplash.com/photo-1610147323479-a7fb11ffd5dd?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1534&q=80"
-              class="bg-red-500 rounded-2xl w-1/3 object-cover h-96 flex-auto"
+              className="bg-red-500 rounded-2xl w-1/3 object-cover h-96 flex-auto"
               alt="photo"
             />
             <img
               src="https://images.unsplash.com/photo-1614914135224-925593607248?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1534&q=80"
-              class="bg-red-500 rounded-2xl w-1/3 object-cover h-96 flex-auto"
+              className="bg-red-500 rounded-2xl w-1/3 object-cover h-96 flex-auto"
               alt="photo"
             />
           </div>
-          <div class=" h-16 border-b  flex items-center justify-around	">
-            <div class="flex items-center	gap-3	">
+          <div className="h-16 border-b flex items-center justify-around">
+            <div className="flex items-center gap-3">
               <svg
                 width="20px"
                 height="19px"
                 viewBox="0 0 20 19"
                 version="1.1"
                 xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink"
+                xmlnsXlink="http://www.w3.org/1999/xlink"
               >
                 <g
                   id="?-Social-Media"
                   stroke="none"
-                  stroke-width="1"
+                  strokeWidth="1"
                   fill="none"
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                 >
                   <g
                     id="Square_Timeline"
@@ -101,12 +112,12 @@ const Post = () => {
                   </g>
                 </g>
               </svg>
-              <div class="text-sm	">10 Comments</div>
+              <div className="text-sm"><button></button> Comments</div>
             </div>
-            <div class="flex items-center	gap-3">
+            <div className="flex items-center gap-3" onClick={handleLikeClick}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6 text-red-500"
+                className="h-6 w-6 text-red-500 cursor-pointer"
                 viewBox="0 0 20 20"
                 fill="currentColor"
               >
@@ -116,9 +127,10 @@ const Post = () => {
                   clip-rule="evenodd"
                 />
               </svg>
-              <div class="text-sm">5 Likes</div>
+              <div className="text-sm">
+                <button>{likes} Likes</button></div>
             </div>
-            <div class="flex items-center	gap-3">
+            <div className="flex items-center	gap-3" onClick={handleLikeClick}>
               <svg
                 width="22px"
                 height="22px"
@@ -178,9 +190,10 @@ const Post = () => {
                   </g>
                 </g>
               </svg>
-              <div class="text-sm">Share</div>
+              <div className="text-sm">
+                <button>Share</button></div>
             </div>
-            <div class="flex items-center	gap-3">
+            <div className="flex items-center	gap-3">
               <svg
                 width="17px"
                 height="22px"
@@ -240,18 +253,18 @@ const Post = () => {
                   </g>
                 </g>
               </svg>
-              <div class="text-sm">Saved</div>
+              <div className="text-sm">Saved</div>
             </div>
           </div>
-          <div class="flex items-center justify-between mt-4">
+          <div className="flex items-center justify-between mt-4">
             <img
               src="https://images.unsplash.com/photo-1595152452543-e5fc28ebc2b8?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"
-              class="bg-yellow-500 rounded-full w-10 h-10 object-cover border"
+              className="bg-yellow-500 rounded-full w-10 h-10 object-cover border"
             />
-            <div class="flex items-center	justify-between	 bg-gray-50 h-11 w-11/12 border rounded-2xl	 overflow-hidden px-4 ">
+            <div className="flex items-center	justify-between	 bg-gray-50 h-11 w-11/12 border rounded-2xl	 overflow-hidden px-4 ">
               <input
                 type="text"
-                class="h-full w-full bg-gray-50 outline-none "
+                className="h-full w-full bg-gray-50 outline-none "
                 placeholder="Write your comment..."
                 name="comment"
               />
