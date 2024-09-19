@@ -1,14 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-const Post = () => {
-  
-  const [likes, setLikes] = useState(5);
-
-  
-  const handleLikeClick = () => {
-    setLikes(likes + 1);
-  };
-
+const Post = ({ post }) => {
   return (
     <div className="pl-10 bg-gray-900">
       <main className="h-full w-full bg-gray-900 flex items-center justify-center">
@@ -16,14 +8,16 @@ const Post = () => {
           <div className="flex items-center justify-between">
             <div className="gap-3.5 flex items-center">
               <img
-                src="https://images.unsplash.com/photo-1617077644557-64be144aa306?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"
+                src={post.user.avatar}
                 className="object-cover bg-yellow-600 rounded-full w-10 h-10"
                 alt="User"
               />
               <div className="flex flex-col">
-                <b className="mb-2 capitalize text-white">sofia müller</b>
+                <b className="mb-2 capitalize text-white">
+                  {post.user.username}
+                </b>
                 <time datetime="06-08-21" className="text-gray-400 text-xs">
-                  06 August at 09.15 PM
+                  {post.createdAt}
                 </time>
               </div>
             </div>
@@ -40,18 +34,18 @@ const Post = () => {
               </svg>
             </div>
           </div>
-          <div className="whitespace-pre-wrap mt-7">Hello guys ?</div>
+          <div className="whitespace-pre-wrap mt-7">{post.caption}</div>
           <div className="mt-5 flex gap-2 justify-center border-b pb-4 flex-wrap">
             <img
-              src="https://images.unsplash.com/photo-1610147323479-a7fb11ffd5dd?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1534&q=80"
+              src={post.media}
               className="bg-red-500 rounded-2xl w-1/3 object-cover h-96 flex-auto"
               alt="photo"
             />
-            <img
+            {/* <img
               src="https://images.unsplash.com/photo-1614914135224-925593607248?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1534&q=80"
               className="bg-red-500 rounded-2xl w-1/3 object-cover h-96 flex-auto"
               alt="photo"
-            />
+            /> */}
           </div>
           <div className="h-16 border-b flex items-center justify-around">
             <div className="flex items-center gap-3">
@@ -112,9 +106,11 @@ const Post = () => {
                   </g>
                 </g>
               </svg>
-              <div className="text-sm"><button></button> Comments</div>
+              <div className="text-sm">
+                <button></button> Comments
+              </div>
             </div>
-            <div className="flex items-center gap-3" onClick={handleLikeClick}>
+            <div className="flex items-center gap-3">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6 text-red-500 cursor-pointer"
@@ -128,9 +124,10 @@ const Post = () => {
                 />
               </svg>
               <div className="text-sm">
-                <button>{likes} Likes</button></div>
+                <button>{post.likes} Likes</button>
+              </div>
             </div>
-            <div className="flex items-center	gap-3" onClick={handleLikeClick}>
+            <div className="flex items-center	gap-3">
               <svg
                 width="22px"
                 height="22px"
@@ -191,7 +188,8 @@ const Post = () => {
                 </g>
               </svg>
               <div className="text-sm">
-                <button>Share</button></div>
+                <button>Share</button>
+              </div>
             </div>
             <div className="flex items-center	gap-3">
               <svg

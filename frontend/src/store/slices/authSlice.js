@@ -18,14 +18,16 @@ const authSlice = createSlice({
     checkAuth(state) {
       const token = cookies.get("accessToken");
       if (token) {
-        // console.log(token);
         state.isAuthenticated = true;
       } else {
         state.isAuthenticated = false;
       }
     },
+    setUser(state, action) {
+      state.user = action.payload;
+    },
   },
 });
 
-export const { signOut, checkAuth } = authSlice.actions;
+export const { signOut, checkAuth, setUser } = authSlice.actions;
 export default authSlice.reducer;

@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { Form, Link, useNavigate } from "react-router-dom";
 import { signInRoute } from "../utils/ApiRoutes";
-import { checkAuth } from "../store/slices/authSlice";
+import { checkAuth, setUser } from "../store/slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import cookie from "js-cookie";
 
@@ -47,7 +47,8 @@ const SignIn = () => {
       if (data.success === false) {
         return;
       }
-      dispatch(checkAuth(data.message.accessToken));
+      dispatch(checkAuth());
+      dispatch(setUser(data.message.user));
       navigate("/");
     }
   };

@@ -15,7 +15,6 @@ function App() {
 
   useEffect(() => {
     dispatch(checkAuth());
-    //console.log(isAuthenticated);
   }, [dispatch]);
 
   useEffect(() => {
