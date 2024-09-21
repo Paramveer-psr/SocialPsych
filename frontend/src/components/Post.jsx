@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 const Post = ({ post }) => {
   return (
-    <div className="pl-10 bg-gray-900">
+    <div className="pl-10 bg-gray-900 ">
       <main className="h-full w-full bg-gray-900 flex items-center justify-center">
         <div className="border border-gray-700 max-w-screen-md bg-gray-800 mt-6 rounded-2xl p-4">
           <div className="flex items-center justify-between">
@@ -273,4 +273,5 @@ const Post = ({ post }) => {
     </div>
   );
 };
+
 export default Post;
