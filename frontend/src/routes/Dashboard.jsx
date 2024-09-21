@@ -21,7 +21,7 @@ function Dashboard() {
 
   // console.log(posts);
   return (
-    <div>
+    <div className="ml-64">
       {posts.map((post) => (
         <Post key={post.id} post={post} />
       ))}
