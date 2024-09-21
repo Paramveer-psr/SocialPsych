@@ -1,16 +1,5 @@
-import React from "react";
-import {
-  Card,
-  Typography,
-  List,
-  ListItem,
-  ListItemPrefix,
-  ListItemSuffix,
-  Chip,
-  Accordion,
-  AccordionHeader,
-  AccordionBody,
-} from "@material-tailwind/react";
+import React, { useState } from "react";
+import { Card, List, ListItem, ListItemPrefix } from "@material-tailwind/react";
 import {
   PresentationChartBarIcon,
   ShoppingBagIcon,
@@ -19,170 +8,81 @@ import {
   InboxIcon,
   PowerIcon,
 } from "@heroicons/react/24/solid";
-import {
-  ChevronRightIcon,
-  ChevronDownIcon,
-} from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
 
 function SidebarWithCta() {
-  const [open, setOpen] = React.useState(0);
+  const [isExpanded, setIsExpanded] = useState(false); // State to handle sidebar collapse/expand
 
-  const handleOpen = (value) => {
-    setOpen(open === value ? 0 : value);
+  const toggleSidebar = () => {
+    setIsExpanded(!isExpanded); // Toggle the sidebar state
   };
 
   return (
-    <div className="fixed top-0 left-0 h-full w-64 bg-gray-900 shadow-lg z-40">
-      <Card className="h-full w-full p-4 shadow-xl bg-gray-800 text-white">
-        <div className="mb-2 p-4">
-          <Typography variant="h5" color="white">
-            Menu
-          </Typography>
-        </div>
-        <List>
-          <Accordion
-            open={open === 1}
-            icon={
-              <ChevronDownIcon
-                strokeWidth={2.5}
-                className={`mx-auto h-4 w-4 transition-transform ${
-                  open === 1 ? "rotate-180" : ""
-                }`}
+    <div className="fixed top-16 left-0 h-full bg-gray-900 shadow-lg z-10"> {/* Adjusted top for header */}
+      <Card
+        className={`h-full transition-all duration-300 bg-gray-800 ${
+          isExpanded ? "w-64" : "w-20"
+        }`} // Sidebar expands to 64px width
+      >
+        <button
+          className="text-white p-2 focus:outline-none"
+          onClick={toggleSidebar}
+        >
+          {/* Toggle Button */}
+          {isExpanded ? "<" : ">"}
+        </button>
+        <List className="space-y-6 mt-4">
+          <ListItem className="flex items-center">
+            <ListItemPrefix>
+              <PresentationChartBarIcon
+                className="h-8 w-8 text-white hover:scale-125 hover:text-blue-500 transition-transform duration-300"
               />
-            }
-          >
-            <ListItem className="p-0" selected={open === 1}>
-              <AccordionHeader
-                onClick={() => handleOpen(1)}
-                className="border-b-0 p-3"
-              >
-                <ListItemPrefix>
-                  <PresentationChartBarIcon className="h-5 w-5 text-white" />
-                </ListItemPrefix>
-                <Typography color="white" className="mr-auto font-normal">
-                  Dashboard
-                </Typography>
-              </AccordionHeader>
-            </ListItem>
-            {open === 1 && (
-              <AccordionBody className="py-1">
-                <List className="p-0">
-                  <ListItem>
-                    <ListItemPrefix>
-                      <ChevronRightIcon
-                        strokeWidth={3}
-                        className="h-3 w-5 text-white"
-                      />
-                    </ListItemPrefix>
-                    Analytics
-                  </ListItem>
-                  <ListItem>
-                    <ListItemPrefix>
-                      <ChevronRightIcon
-                        strokeWidth={3}
-                        className="h-3 w-5 text-white"
-                      />
-                    </ListItemPrefix>
-                    Reporting
-                  </ListItem>
-                  <ListItem>
-                    <ListItemPrefix>
-                      <ChevronRightIcon
-                        strokeWidth={3}
-                        className="h-3 w-5 text-white"
-                      />
-                    </ListItemPrefix>
-                    Projects
-                  </ListItem>
-                </List>
-              </AccordionBody>
-            )}
-          </Accordion>
-          <Accordion
-            open={open === 2}
-            icon={
-              <ChevronDownIcon
-                strokeWidth={2.5}
-                className={`mx-auto h-4 w-4 transition-transform ${
-                  open === 2 ? "rotate-180" : ""
-                }`}
+            </ListItemPrefix>
+            {isExpanded && <span className="text-white ml-4">Dashboard</span>} {/* Label */}
+          </ListItem>
+
+          <ListItem className="flex items-center">
+            <ListItemPrefix>
+              <ShoppingBagIcon
+                className="h-8 w-8 text-white hover:scale-125 hover:text-blue-500 transition-transform duration-300"
               />
-            }
-          >
-            <ListItem className="p-0" selected={open === 2}>
-              <AccordionHeader
-                onClick={() => handleOpen(2)}
-                className="border-b-0 p-3"
-              >
-                <ListItemPrefix>
-                  <ShoppingBagIcon className="h-5 w-5 text-white" />
-                </ListItemPrefix>
-                <Typography color="white" className="mr-auto font-normal">
-                  E-Commerce
-                </Typography>
-              </AccordionHeader>
-            </ListItem>
-            {open === 2 && (
-              <AccordionBody className="py-1">
-                <List className="p-0">
-                  <ListItem>
-                    <ListItemPrefix>
-                      <ChevronRightIcon
-                        strokeWidth={3}
-                        className="h-3 w-5 text-white"
-                      />
-                    </ListItemPrefix>
-                    Orders
-                  </ListItem>
-                  <ListItem>
-                    <ListItemPrefix>
-                      <ChevronRightIcon
-                        strokeWidth={3}
-                        className="h-3 w-5 text-white"
-                      />
-                    </ListItemPrefix>
-                    Products
-                  </ListItem>
-                </List>
-              </AccordionBody>
-            )}
-          </Accordion>
-          <hr className="my-2 border-gray-700" />
-          <ListItem>
-            <ListItemPrefix>
-              <InboxIcon className="h-5 w-5 text-white" />
             </ListItemPrefix>
-            Inbox
-            <ListItemSuffix>
-              <Chip
-                value="14"
-                size="sm"
-                variant="ghost"
-                color="white"
-                className="rounded-full"
+            {isExpanded && <span className="text-white ml-4">E-Commerce</span>} {/* Label */}
+          </ListItem>
+
+          <ListItem className="flex items-center">
+            <ListItemPrefix>
+              <InboxIcon
+                className="h-8 w-8 text-white hover:scale-125 hover:text-blue-500 transition-transform duration-300"
               />
-            </ListItemSuffix>
-          </ListItem>
-          <ListItem>
-            <ListItemPrefix>
-              <UserCircleIcon className="h-5 w-5 text-white" />
             </ListItemPrefix>
-            <Link to="/profile" className="text-white">
-              Profile
-            </Link>
+            {isExpanded && <span className="text-white ml-4">Inbox</span>} {/* Label */}
           </ListItem>
-          <ListItem>
+
+          <ListItem className="flex items-center">
             <ListItemPrefix>
-              <Cog6ToothIcon className="h-5 w-5 text-white" />
+              <UserCircleIcon
+                className="h-8 w-8 text-white hover:scale-125 hover:text-blue-500 transition-transform duration-300"
+              />
             </ListItemPrefix>
-            Settings
+            {isExpanded && <span className="text-white ml-4">Profile</span>} {/* Label */}
           </ListItem>
-          <ListItem>
+
+          <ListItem className="flex items-center">
             <ListItemPrefix>
-              <PowerIcon className="h-5 w-5 text-white" />
+              <Cog6ToothIcon
+                className="h-8 w-8 text-white hover:scale-125 hover:text-blue-500 transition-transform duration-300"
+              />
             </ListItemPrefix>
-            Log Out
+            {isExpanded && <span className="text-white ml-4">Settings</span>} {/* Label */}
+          </ListItem>
+
+          <ListItem className="flex items-center">
+            <ListItemPrefix>
+              <PowerIcon
+                className="h-8 w-8 text-white hover:scale-125 hover:text-red-500 transition-transform duration-300"
+              />
+            </ListItemPrefix>
+            {isExpanded && <span className="text-white ml-4">Log Out</span>} {/* Label */}
           </ListItem>
         </List>
       </Card>
