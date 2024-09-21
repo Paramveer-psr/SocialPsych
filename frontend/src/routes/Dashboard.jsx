@@ -4,9 +4,10 @@ import { getFeedPosts } from "../utils/ApiRoutes";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { getPostsStart, getPostsSuccess } from "../store/slices/postSlice";
+import Loader from "../components/Loader/Loader";
 function Dashboard() {
   const dispatch = useDispatch();
-  const { posts } = useSelector((state) => state.post);
+  const { posts, status } = useSelector((state) => state.post);
 
   useEffect(() => {
     const getPosts = async () => {
@@ -22,9 +23,11 @@ function Dashboard() {
   // console.log(posts);
   return (
     <div>
-      {posts.map((post) => (
-        <Post key={post.id} post={post} />
-      ))}
+      {status == "loading" ? (
+        <Loader />
+      ) : (
+        posts.map((post) => <Post key={post.id} post={post} />)
+      )}
     </div>
   );
 }
