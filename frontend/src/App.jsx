@@ -8,6 +8,7 @@ import { checkAuth } from "./store/slices/authSlice";
 import Dashboard from "./routes/Dashboard";
 import ProfilePage from "./routes/ProfilePage";
 import { io } from "socket.io-client";
+import SetProfile from "./routes/SetProfile";
 
 function App() {
   const dispatch = useDispatch();
@@ -33,6 +34,7 @@ function App() {
               <Route path="/sign-in" element={<SignIn />} />
               <Route path="/sign-up" element={<SignUp />} />
               <Route path="/" element={<Navigate to="/sign-in" />} />
+              <Route path="/set-profile" element={<SetProfile />} />
             </>
           ) : (
             <>
@@ -40,7 +42,6 @@ function App() {
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/profile" element={<ProfilePage />} />
               </Route>
-
               <Route path="*" element={<Navigate to="/" />} />
             </>
           )}

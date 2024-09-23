@@ -22,7 +22,7 @@ function Dashboard() {
 
   // console.log(posts);
   return (
-    <div>
+    <div className="ml-64">
       {status == "loading" ? (
         <Loader />
       ) : (
