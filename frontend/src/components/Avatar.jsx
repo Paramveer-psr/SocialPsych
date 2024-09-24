@@ -44,7 +44,7 @@ const Avatar = () => {
         className="absolute right-0 z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600 group-hover:block"
       >
         <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
-          <div>{user.username}</div>
+          <div>{user.unameser}</div>
           <div className="font-medium truncate">{user.email}</div>
         </div>
         <ul

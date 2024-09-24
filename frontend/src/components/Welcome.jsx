@@ -15,7 +15,7 @@ export default function Welcome() {
 
   return (
     <div
-      className="flex flex-col bg-gray-900
+      className="flex flex-col  bg-gray-900
      items-center justify-center text-white min-w-48"
     >
       <img src={Robot} alt="" className="h-80" />
