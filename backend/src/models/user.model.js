@@ -21,15 +21,24 @@ const userSchema = new Schema(
     },
     name: {
       type: String,
-      required: true,
       trim: true,
+      default: "",
     },
-    isAvatarSet: {
+    isProfileSet: {
       type: Boolean,
       default: false,
     },
     avatar: {
       type: String,
+      default: "",
+    },
+    bio: {
+      type: String,
+      default: "",
+    },
+    gender: {
+      type: String,
+      default: "",
     },
     password: {
       type: String,

@@ -13,6 +13,7 @@ const Avatar = () => {
   // useEffect(() => {
   //   dispatch(checkAuth());
   // }, [dispatch]);
+  console.log(user);
 
   const handleSignOut = async () => {
     const { data } = await axios.post(
@@ -35,7 +36,7 @@ const Avatar = () => {
         data-dropdown-toggle="userDropdown"
         data-dropdown-placement="bottom-start"
         className="w-10 h-10 rounded-full cursor-pointer"
-        src="/docs/images/people/profile-picture-5.jpg"
+        src={user.avatar}
         alt="User dropdown"
       />
 
