@@ -2,6 +2,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiResponse } from "../utils//ApiResponse.js";
 import { ApiError } from "../utils//ApiError.js";
 import { User } from "../models/user.model.js";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 const generateAccessAndRefreshTokens = async (userId) => {
   try {
@@ -23,11 +24,11 @@ const generateAccessAndRefreshTokens = async (userId) => {
 };
 
 const signUp = asyncHandler(async (req, res) => {
-  const { name, username, password, email } = req.body;
+  const { username, password, email } = req.body;
 
   //console.log(name, username, password, email);
 
-  if ([name, username, password, email].some((field) => field?.trim() === "")) {
+  if ([username, password, email].some((field) => field?.trim() === "")) {
     throw new ApiError(400, "All fields are required !!");
   }
 
@@ -41,10 +42,13 @@ const signUp = asyncHandler(async (req, res) => {
 
   const user = await User.create({
     username: username.toLowerCase().trim(),
-    name,
     email: email.toLowerCase().trim(),
     password,
   });
+
+  const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(
+    user._id
+  );
 
   const createdUser = await User.findById(user._id).select(
     "-refreshToken -password"
@@ -54,9 +58,23 @@ const signUp = asyncHandler(async (req, res) => {
     throw new ApiError(500, "Something went wrong at User Creation !!");
   }
 
+  const options = {
+    httpOnly: true,
+    sameSite: "Strict",
+    secure: true,
+  };
+
   return res
     .status(200)
-    .json(new ApiResponse(200, "User Registered Successfully", createdUser));
+    .cookie("accessToken", accessToken, { sameSite: "Strict" })
+    .cookie("refreshToken", refreshToken, options)
+    .json(
+      new ApiResponse(200, "User Registered Successfully", {
+        user: createdUser,
+        accessToken,
+        refreshToken,
+      })
+    );
 });
 
 const signIn = asyncHandler(async (req, res) => {
@@ -118,4 +136,36 @@ const signOut = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, "User Logged Out"));
 });
 
-export { signUp, signIn, signOut };
+const setProfile = asyncHandler(async (req, res) => {
+  const { name, bio, gender } = req.body;
+  const mediaPath = req.file?.path;
+
+  if ([name, bio, gender].some((field) => field?.trim() === "")) {
+    throw new ApiError(400, "All fields are required !!");
+  }
+
+  if (!mediaPath) {
+    throw new ApiError(400, "Please provide an image");
+  }
+
+  const media = await uploadOnCloudinary(mediaPath, process.env.API_KEY);
+  const mediaUrl = media.secure_url;
+
+  await User.findByIdAndUpdate(req.user._id, {
+    $set: {
+      name,
+      bio,
+      gender,
+      avatar: mediaUrl,
+      isProfileSet: true,
+    },
+  });
+
+  const user = await User.findById(req.user._id).select(
+    "-password -refreshToken"
+  );
+
+  return res.status(200).json(new ApiResponse(200, "Profile Updated", user));
+});
+
+export { signUp, signIn, signOut, setProfile };

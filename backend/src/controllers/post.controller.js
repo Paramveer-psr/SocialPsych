@@ -31,7 +31,7 @@ const createPost = asyncHandler(async (req, res) => {
 
 const getPosts = asyncHandler(async (req, res) => {
   const posts = await Post.find()
-    .populate("user", "username")
+    .populate("user", "username avatar")
     .populate("comments.user", "username")
     .sort({ createdAt: -1 });
 
