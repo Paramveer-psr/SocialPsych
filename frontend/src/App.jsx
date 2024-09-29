@@ -9,6 +9,7 @@ import Dashboard from "./routes/Dashboard";
 import ProfilePage from "./routes/ProfilePage";
 import { io } from "socket.io-client";
 import SetProfile from "./routes/SetProfile";
+import Chat from "./routes/Chat";
 
 function App() {
   const dispatch = useDispatch();
@@ -41,7 +42,9 @@ function App() {
               <Route path="/" element={<Home />}>
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/chat" element={<Chat />} />
               </Route>
+              
               <Route path="*" element={<Navigate to="/" />} />
             </>
           )}
