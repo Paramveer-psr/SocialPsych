@@ -2,36 +2,54 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import Welcome from "../components/Welcome";
+import { setProfileRoute } from "../utils/ApiRoutes";
+import axios from "axios";
 
 const SetProfile = () => {
   const [profilePhoto, setProfilePhoto] = useState("");
   const [bio, setBio] = useState("");
-  const [username, setUsername] = useState("");
-  const [gender, setGender] = useState(""); // New state for gender
+  const [name, setName] = useState("");
+  const [gender, setGender] = useState("");
   const navigate = useNavigate();
 
   const handlePhotoUpload = (e) => {
     const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setProfilePhoto(reader.result);
-    };
-    reader.readAsDataURL(file);
+    setProfilePhoto(file);
   };
 
-  const handleSave = () => {
-    alert(`Profile updated successfully! \nUsername: ${username} \nBio: ${bio} \nGender: ${gender}`);
+  const handleValidation = () => {
+    return true;
+  };
+
+  const handleSave = async (event) => {
+    event.preventDefault();
+    if (!handleValidation()) {
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("bio", bio);
+    formData.append("gender", gender);
+    if (profilePhoto) {
+      formData.append("media", profilePhoto);
+    }
+
+    const { data } = await axios.post(setProfileRoute, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    console.log(data);
     navigate("/");
   };
 
   return (
     <div className="h-screen grid grid-cols-2">
-      {/* Welcome Section */}
       <div className="bg-gray-900 flex items-center justify-center">
         <Welcome />
       </div>
-
-      {/* Profile Form Section */}
       <div className="flex items-center justify-center bg-gray-800">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -46,14 +64,20 @@ const SetProfile = () => {
               transition={{ duration: 0.6, delay: 0.7 }}
               className="relative"
             >
-              <motion.img
-                src={profilePhoto}
-                alt="Profile"
-                className="w-32 h-32 rounded-full border-4 border-gray-00 shadow-lg"
-                initial={{ scale: 0.9 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 0.5, delay: 0.7 }}
-              />
+              {profilePhoto ? (
+                <motion.img
+                  src={URL.createObjectURL(profilePhoto)}
+                  alt="Profile"
+                  className="w-32 h-32 rounded-full border-4 border-gray-00 shadow-lg"
+                  initial={{ scale: 0.9 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.5, delay: 0.7 }}
+                />
+              ) : (
+                <div className="w-32 h-32 rounded-full border-4 border-gray-00 shadow-lg bg-gray-700 flex items-center justify-center">
+                  <span className="text-gray-400">No Image</span>
+                </div>
+              )}
               <label
                 htmlFor="upload-photo"
                 className="absolute bottom-0 right-0 bg-blue-600 w-8 h-8 rounded-full flex items-center justify-center cursor-pointer border-2 border-gray-900"
@@ -88,13 +112,11 @@ const SetProfile = () => {
                 transition={{ duration: 0.6, delay: 0.9 }}
                 className="mb-4"
               >
-                <label className="block text-gray-400 text-sm mb-2">
-                  Username
-                </label>
+                <label className="block text-gray-400 text-sm mb-2">Name</label>
                 <input
                   type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   className="w-full p-3 rounded-lg bg-gray-700 text-white"
                 />
               </motion.div>
@@ -120,20 +142,26 @@ const SetProfile = () => {
                 transition={{ duration: 0.6, delay: 1.5 }}
                 className="mb-4"
               >
-                <label className="block text-gray-400 text-sm mb-4 ">Gender</label>
+                <label className="block text-gray-400 text-sm mb-4 ">
+                  Gender
+                </label>
                 <div className="flex space-x-6">
                   <div
                     onClick={() => setGender("Male")}
                     className={`w-6 h-6 rounded-full cursor-pointer border-2 ${
-                      gender === "Male" ? "bg-black border-black" : "border-gray-400"
+                      gender === "Male"
+                        ? "bg-black border-black"
+                        : "border-gray-400"
                     }`}
                   ></div>
                   <label className="text-gray-400">Male</label>
-                  
+
                   <div
                     onClick={() => setGender("Female")}
                     className={`w-6 h-6 rounded-full dark cursor-pointer border-2 ${
-                      gender === "Female" ? "bg-black border-black" : "border-gray-400"
+                      gender === "Female"
+                        ? "bg-black border-black"
+                        : "border-gray-400"
                     }`}
                   ></div>
                   <label className="text-gray-400">Female</label>

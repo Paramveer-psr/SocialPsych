@@ -8,6 +8,7 @@ const authSlice = createSlice({
     user: null,
     status: "idle",
     error: null,
+    isProfileSet: false,
   },
   reducers: {
     signOut(state) {
@@ -23,11 +24,14 @@ const authSlice = createSlice({
         state.isAuthenticated = false;
       }
     },
+    checkProfile(state, action) {
+      state.isProfileSet = action.payload;
+    },
     setUser(state, action) {
       state.user = action.payload;
     },
   },
 });
 
-export const { signOut, checkAuth, setUser } = authSlice.actions;
+export const { signOut, checkAuth, setUser, checkProfile } = authSlice.actions;
 export default authSlice.reducer;

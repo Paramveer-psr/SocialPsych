@@ -2,14 +2,17 @@ import { useState } from "react";
 import axios from "axios";
 import { signUpRoute } from "../utils/ApiRoutes";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { checkAuth, setUser } from "../store/slices/authSlice";
 
 const SignUp = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [values, setValues] = useState({
     email: "",
-    name: "",
     username: "",
     password: "",
+    confirmPassword: "",
   });
   const [errors, setErrors] = useState({});
 
@@ -18,7 +21,7 @@ const SignUp = () => {
   };
 
   const handleValidation = () => {
-    const { username, password, email, name } = values;
+    const { username, password, email, confirmPassword } = values;
     let isValid = true;
     let errors = {};
 
@@ -26,10 +29,7 @@ const SignUp = () => {
       errors.username = "Username is required";
       isValid = false;
     }
-    if (!name.trim()) {
-      errors.name = "Name is required";
-      isValid = false;
-    }
+
     if (!email.trim()) {
       errors.email = "Email is required";
       isValid = false;
@@ -44,6 +44,14 @@ const SignUp = () => {
       errors.password = "Password must be at least 6 characters";
       isValid = false;
     }
+    if (!confirmPassword.trim()) {
+      errors.password = "Confirm Password is required";
+      isValid = false;
+    }
+    if (password !== confirmPassword) {
+      errors.password = "Passwords do not match";
+      isValid = false;
+    }
 
     setErrors(errors);
     return isValid;
@@ -53,18 +61,19 @@ const SignUp = () => {
     event.preventDefault();
     if (handleValidation()) {
       try {
-        const { username, password, email, name } = values;
+        const { username, password, email } = values;
         const { data } = await axios.post(signUpRoute, {
           username,
           password,
           email,
-          name,
         });
 
         if (data.success === false) {
           console.error(data.message || "An error occurred");
           // Optionally, handle specific errors from the response
         } else {
+          dispatch(checkAuth());
+          dispatch(setUser(data.message.user));
           navigate("/set-profile");
         }
       } catch (error) {
@@ -116,7 +125,7 @@ const SignUp = () => {
                     <p className="text-red-500 text-sm">{errors.username}</p>
                   )}
                 </div>
-                <div>
+                {/* <div>
                   <label
                     htmlFor="name"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -136,7 +145,7 @@ const SignUp = () => {
                   {errors.name && (
                     <p className="text-red-500 text-sm">{errors.name}</p>
                   )}
-                </div>
+                </div> */}
                 <div>
                   <label
                     htmlFor="email"
@@ -177,6 +186,29 @@ const SignUp = () => {
                   />
                   {errors.password && (
                     <p className="text-red-500 text-sm">{errors.password}</p>
+                  )}
+                </div>
+                <div>
+                  <label
+                    htmlFor="password"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Confirm Password
+                  </label>
+                  <input
+                    type="password"
+                    name="confirmPassword"
+                    id="confirmPassword"
+                    placeholder="••••••••"
+                    className={`bg-gray-50 border ${
+                      errors.password ? "border-red-500" : "border-gray-300"
+                    } text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
+                    onChange={handleInput}
+                  />
+                  {errors.confirmPassword && (
+                    <p className="text-red-500 text-sm">
+                      {errors.confirmPassword}
+                    </p>
                   )}
                 </div>
                 <button
