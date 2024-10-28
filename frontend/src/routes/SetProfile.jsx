@@ -26,7 +26,7 @@ const SetProfile = () => {
     if (!handleValidation()) {
       return;
     }
-
+    console.log(name, bio, gender, profilePhoto);
     const formData = new FormData();
     formData.append("name", name);
     formData.append("bio", bio);
@@ -35,14 +35,20 @@ const SetProfile = () => {
       formData.append("media", profilePhoto);
     }
 
-    const { data } = await axios.post(setProfileRoute, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
+    console.log(formData);
+    const { data } = await axios.post(
+      setProfileRoute,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       },
-    });
+      { withCredentials: true }
+    );
 
     console.log(data);
-    navigate("/");
+    // navigate("/");
   };
 
   return (

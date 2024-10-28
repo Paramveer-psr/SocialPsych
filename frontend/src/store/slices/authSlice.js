@@ -25,7 +25,11 @@ const authSlice = createSlice({
       }
     },
     checkProfile(state, action) {
-      state.isProfileSet = action.payload;
+      if (state.user.isProfileSet) {
+        state.isProfileSet = true;
+      } else {
+        state.isProfileSet = false;
+      }
     },
     setUser(state, action) {
       state.user = action.payload;

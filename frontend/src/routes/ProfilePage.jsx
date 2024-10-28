@@ -1,8 +1,9 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 
 const ProfilePage = () => {
-  const [followers, setFollowers] = useState(500);
-  const [following, setFollowing] = useState(300);
+  // const [followers, setFollowers] = useState(500);
+  // const [following, setFollowing] = useState(500);
   const [posts, setPosts] = useState([
     {
       id: 1,
@@ -41,9 +42,8 @@ const ProfilePage = () => {
       comments: 10,
     },
   ]);
-
+  const { user } = useSelector((state) => state.auth);
   const handleShare = (postContent) => {
-    
     if (navigator.share) {
       navigator
         .share({
@@ -61,21 +61,21 @@ const ProfilePage = () => {
         <div className="flex items-center flex-wrap pt-5 pl-5">
           <div className="relative flex-shrink-0">
             <img
-              src="https://images.unsplash.com/photo-1614914135224-925593607248?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1534&q=80"
+              src={user.avatar}
               alt="Profile"
               className="w-32 h-32 rounded-full border-4 border-gray-900 shadow-lg"
             />
             <span className="absolute bottom-0 right-0 bg-green-400 w-6 h-6 rounded-full border-2 border-gray-900"></span>
           </div>
           <div className="ml-7 flex-1">
-            <h1 className="text-3xl font-bold">John Doe</h1>
-            <p className="text-gray-400">@johndoe</p>
+            <h1 className="text-3xl font-bold">{user.name}</h1>
+            <p className="text-gray-400">@{user.username}</p>
             <p className="mt-2 text-gray-500">
-              Web Developer • Tech Enthusiast • Coffee Lover
+              {user.bio || "This user has not set a bio."}
             </p>
           </div>
         </div>
-        <div className="flex justify-evenly mt-4 space-x-6">
+        {/* <div className="flex justify-evenly mt-4 space-x-6">
           <div className="text-center">
             <p className="text-2xl font-semibold text-white">{followers}</p>
             <p className="text-gray-400">Followers</p>
@@ -88,7 +88,7 @@ const ProfilePage = () => {
             <p className="text-2xl font-semibold text-white">{posts.length}</p>
             <p className="text-gray-400">Posts</p>
           </div>
-        </div>
+        </div> */}
       </header>
 
       <main className="flex-1 w-full bg-gray-800 p-6 rounded-lg shadow-lg">

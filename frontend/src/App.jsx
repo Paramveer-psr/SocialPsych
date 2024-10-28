@@ -41,15 +41,21 @@ function App() {
             </>
           ) : (
             <>
-              <Route path="/" element={<Home />}>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/chat" element={<Chat />} />
-              </Route>
-              {!isProfileSet && (
-                <Route path="/set-profile" element={<SetProfile />} />
+              {!isProfileSet ? (
+                <>
+                  <Route path="/set-profile" element={<SetProfile />} />
+                  <Route path="*" element={<Navigate to="/set-profile" />} />
+                </>
+              ) : (
+                <>
+                  <Route path="/" element={<Home />}>
+                    <Route path="/" element={<Dashboard />} />
+                    <Route path="/profile" element={<ProfilePage />} />
+                    <Route path="/chat" element={<Chat />} />
+                  </Route>
+                  <Route path="*" element={<Navigate to="/" />} />
+                </>
               )}
-              <Route path="*" element={<Navigate to="/" />} />
             </>
           )}
         </Routes>

@@ -62,11 +62,15 @@ const SignUp = () => {
     if (handleValidation()) {
       try {
         const { username, password, email } = values;
-        const { data } = await axios.post(signUpRoute, {
-          username,
-          password,
-          email,
-        });
+        const { data } = await axios.post(
+          signUpRoute,
+          {
+            username,
+            password,
+            email,
+          },
+          { withCredentials: true }
+        );
 
         if (data.success === false) {
           console.error(data.message || "An error occurred");

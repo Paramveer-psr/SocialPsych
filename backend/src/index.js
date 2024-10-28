@@ -19,14 +19,28 @@ connectDB()
     io.on("connection", (socket) => {
       console.log("A user connected", socket.id);
 
+      // Handle post like event
       socket.on("like", (postId) => {
         console.log("Like event received for post: ", postId);
         io.emit("like", postId);
       });
 
-      socket.on("comment", (postId) => {
-        console.log("Comment event received for post: ", postId);
-        io.emit("comment", postId);
+      // Handle comment addition event
+      socket.on("addComment", (postId, comment) => {
+        console.log("Add comment event received for post: ", postId);
+        io.emit("addComment", postId, comment);
+      });
+
+      // Handle comment deletion event
+      socket.on("deleteComment", (postId, commentId) => {
+        console.log("Delete comment event received for post: ", postId);
+        io.emit("deleteComment", postId, commentId);
+      });
+
+      // Handle chat message event
+      socket.on("chatMessage", (chatId, message) => {
+        console.log("Chat message event received for chat: ", chatId);
+        io.emit("chatMessage", chatId, message);
       });
 
       socket.on("disconnect", () => {

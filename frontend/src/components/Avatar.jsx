@@ -13,7 +13,7 @@ const Avatar = () => {
   // useEffect(() => {
   //   dispatch(checkAuth());
   // }, [dispatch]);
-  console.log(user);
+  //console.log(user);
 
   const handleSignOut = async () => {
     const { data } = await axios.post(

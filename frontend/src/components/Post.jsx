@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 const Post = ({ post }) => {
-  console.log(post);
   return (
     <div className="pl-10 bg-gray-900 ">
       <main className="h-full w-full bg-gray-900 flex items-center justify-center">
