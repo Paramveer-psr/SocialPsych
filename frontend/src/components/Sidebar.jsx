@@ -24,6 +24,7 @@ function Sidebar() {
   };
 
   return (
+    
     <div className="fixed top-16 left-0 h-full bg-gray-900 shadow-lg z-10">
       {" "}
       {/* Adjusted top for header */}

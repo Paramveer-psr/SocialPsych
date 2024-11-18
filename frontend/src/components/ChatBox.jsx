@@ -16,7 +16,7 @@ const contacts = [
   { id: 13, name: "Michael Scott" },
 ];
 
-const Chat = () => {
+const ChatBox = () => {
   const [selectedContact, setSelectedContact] = useState(null);
   const [messages, setMessages] = useState({});
   const [newMessage, setNewMessage] = useState("");
@@ -60,7 +60,7 @@ const Chat = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row w-full h-screen bg-gray-900 text-gray-300 ml-40 mr-[20rem]">
+    <div className="flex flex-col lg:flex-row w-full h-screen bg-gray-900 text-gray-300">
       {/* Sidebar Contact List */}
       <div className="w-full lg:w-1/3 bg-gray-800 border-r border-gray-700">
         <h2 className="p-4 text-xl font-bold">Contacts</h2>
@@ -160,4 +160,4 @@ const Chat = () => {
   );
 };
 
-export default Chat;
+export default ChatBox;

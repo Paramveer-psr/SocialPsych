@@ -54,7 +54,7 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col justify-start ml-64 mr-32">
+    <div className="min-h-screen bg-gray-900 text-white flex flex-col justify-start ml-64 mr-32   ">
       <header className="w-full bg-gray-800 rounded-lg shadow-lg mb-10 pb-5">
         <div className="flex items-center flex-wrap pt-5 pl-5">
           <div className="relative flex-shrink-0">
