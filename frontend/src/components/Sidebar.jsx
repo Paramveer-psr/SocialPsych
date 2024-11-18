@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Card, List, ListItem, ListItemPrefix } from "@material-tailwind/react";
+import {
+  Avatar,
+  Card,
+  List,
+  ListItem,
+  ListItemPrefix,
+} from "@material-tailwind/react";
 import {
   PresentationChartBarIcon,
   ShoppingBagIcon,
@@ -35,9 +41,11 @@ function Sidebar() {
         </button>
         <List className="space-y-6 mt-4">
           <ListItem className="flex items-center">
-            <ListItemPrefix>
-              <PresentationChartBarIcon className="h-8 w-8 text-white hover:scale-125 hover:text-blue-500 transition-transform duration-300" />
-            </ListItemPrefix>
+            <Link to="/">
+              <ListItemPrefix>
+                <PresentationChartBarIcon className="h-8 w-8 text-white hover:scale-125 hover:text-blue-500 transition-transform duration-300" />
+              </ListItemPrefix>
+            </Link>
             {isExpanded && <span className="text-white ml-4">Dashboard</span>}{" "}
             {/* Label */}
           </ListItem>
@@ -51,9 +59,11 @@ function Sidebar() {
           </ListItem>
 
           <ListItem className="flex items-center">
-            <ListItemPrefix>
-              <InboxIcon className="h-8 w-8 text-white hover:scale-125 hover:text-blue-500 transition-transform duration-300" />
-            </ListItemPrefix>
+            <Link to="/chat">
+              <ListItemPrefix>
+                <InboxIcon className="h-8 w-8 text-white hover:scale-125 hover:text-blue-500 transition-transform duration-300" />
+              </ListItemPrefix>
+            </Link>
             {isExpanded && <span className="text-white ml-4">Inbox</span>}{" "}
             {/* Label */}
           </ListItem>
@@ -61,7 +71,7 @@ function Sidebar() {
           <ListItem className="flex items-center">
             <Link to="/profile">
               <ListItemPrefix>
-                <UserCircleIcon className="h-8 w-8 text-white hover:scale-125 hover:text-blue-500 transition-transform duration-300" />
+                <Avatar className="h-8 w-8 text-white hover:scale-125 hover:text-blue-500 transition-transform duration-300" />
               </ListItemPrefix>
             </Link>
             {isExpanded && <span className="text-white ml-4">Profile</span>}{" "}
@@ -82,6 +92,9 @@ function Sidebar() {
             </ListItemPrefix>
             {isExpanded && <span className="text-white ml-4">Log Out</span>}{" "}
             {/* Label */}
+          </ListItem>
+          <ListItem>
+            <Avatar />
           </ListItem>
         </List>
       </Card>

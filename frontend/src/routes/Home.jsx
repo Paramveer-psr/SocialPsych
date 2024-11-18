@@ -7,18 +7,19 @@ const Home = () => {
   return (
     <>
       <div className="dark bg-gray-900 text-gray-300 min-h-screen">
-        <Header />
+        {/* <Header /> */}
 
         <div className="flex">
           <Sidebar />
-          <main className="mt-16 mb-16 p-4  bg-gray-900 text-gray-300">
+          <main className="mt-16 mb-16 p-4 bg-gray-900 text-gray-300">
             <Outlet />
           </main>
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </>
   );
 };
 
 export default Home;
+// mt-16 mb-16 p-4

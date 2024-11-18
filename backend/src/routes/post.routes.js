@@ -4,6 +4,7 @@ import {
   createPost,
   getPosts,
   likePost,
+  getUserPosts,
 } from "../controllers/post.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 import {
@@ -15,6 +16,7 @@ const router = Router();
 
 router.post("/create", verifyJWT, upload, uploadErrorHandler, createPost);
 router.get("/", verifyJWT, getPosts);
+router.get("/user/:username", verifyJWT, getUserPosts);
 router.post("/like/:postId", verifyJWT, likePost);
 router.post("/comment/:postId", verifyJWT, commentOnPost);
 

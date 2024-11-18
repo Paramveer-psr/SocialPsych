@@ -4,6 +4,8 @@ import { ApiError } from "../utils/ApiError.js";
 import Post from "../models/post.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { Comment } from "../models/comment.model.js";
+import mongoose from "mongoose";
+import { User } from "../models/user.model.js"; // Adjust the path as necessary
 
 const createPost = asyncHandler(async (req, res) => {
   const { caption } = req.body;
@@ -82,4 +84,23 @@ const commentOnPost = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, "Comment Added Successfully", newComment));
 });
 
-export { createPost, getPosts, likePost, commentOnPost };
+const getUserPosts = asyncHandler(async (req, res) => {
+  const { username } = req.params;
+  console.log(username);
+
+  const user = await User.findOne({ username });
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+
+  const posts = await Post.find({ user: user._id })
+    .populate("user", "username avatar")
+    .populate("comments.user", "username")
+    .sort({ createdAt: -1 });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "User Posts Fetched Successfully", posts));
+});
+
+export { createPost, getPosts, likePost, commentOnPost, getUserPosts };
