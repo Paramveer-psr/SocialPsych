@@ -168,4 +168,9 @@ const setProfile = asyncHandler(async (req, res) => {
   return res.status(200).json(new ApiResponse(200, "Profile Updated", user));
 });
 
-export { signUp, signIn, signOut, setProfile };
+const getAllUsers = asyncHandler(async (req, res) => {
+  const users = await User.find().select("-password");
+  res.status(200).json(users);
+});
+
+export { signUp, signIn, signOut, setProfile, getAllUsers };

@@ -25,4 +25,7 @@ app.use("/api/auth", userRouter);
 import postRouter from "./routes/post.routes.js";
 app.use("/api/posts", postRouter);
 
+import chatRouter from "./routes/chat.routes.js";
+app.use("/api/chat", chatRouter);
+
 export { app };

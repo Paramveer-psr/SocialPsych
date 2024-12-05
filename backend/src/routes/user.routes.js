@@ -4,6 +4,7 @@ import {
   signIn,
   signOut,
   signUp,
+  getAllUsers,
 } from "../controllers/user.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 import {
@@ -19,5 +20,6 @@ router.route("/sign-out").post(verifyJWT, signOut);
 router
   .route("/set-profile")
   .post(verifyJWT, upload, uploadErrorHandler, setProfile);
+router.route("/users").get(verifyJWT, getAllUsers);
 
 export default router;

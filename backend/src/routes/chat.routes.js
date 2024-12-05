@@ -8,17 +8,17 @@ import {
   removeFromGroup,
 } from "../controllers/conversation.controller.js";
 import { allMessages, sendMessage } from "../controllers/message.controller.js";
-import { verifyJWT } from "../middleware/auth.middleware.js";
+import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
 // Conversation Routes
-router.post("/chat", verifyJWT, accessConversation);
-router.get("/chat", verifyJWT, fetchChats);
-router.post("/chat/group", verifyJWT, createGroupChat);
-router.put("/chat/rename", verifyJWT, renameGroup);
-router.put("/chat/groupremove", verifyJWT, removeFromGroup);
-router.put("/chat/groupadd", verifyJWT, addToGroup);
+router.post("/", verifyJWT, accessConversation);
+router.get("/", verifyJWT, fetchChats);
+router.post("/group", verifyJWT, createGroupChat);
+router.put("/rename", verifyJWT, renameGroup);
+router.put("/groupremove", verifyJWT, removeFromGroup);
+router.put("/groupadd", verifyJWT, addToGroup);
 
 // Message Routes
 router.get("/message/:chatId", verifyJWT, allMessages);

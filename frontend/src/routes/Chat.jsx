@@ -1,89 +1,133 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
+import {
+  fetchConversations,
+  fetchMessages,
+  sendMessage,
+} from "../utils/api/chat";
+import io from "socket.io-client";
+import { host } from "../utils/ApiRoutes";
+import { fetchUsers } from "../utils/api/users";
 
-const contacts = [
-  { id: 1, name: "Alice Johnson" },
-  { id: 2, name: "Bob Smith" },
-  { id: 3, name: "Charlie Brown" },
-  { id: 4, name: "David Miller" },
-  { id: 5, name: "Eve Williams" },
-  { id: 6, name: "Frank Thompson" },
-  { id: 7, name: "Grace Hopper" },
-  { id: 8, name: "Hannah White" },
-  { id: 9, name: "Ivy Green" },
-  { id: 10, name: "Jack Black" },
-  { id: 11, name: "Kevin Brown" },
-  { id: 12, name: "Lily Adams" },
-  { id: 13, name: "Michael Scott" },
-];
+const socket = io(host);
+
+// const conversations = [
+//   { id: 1, name: "Alice Johnson" },
+//   { id: 2, name: "Bob Smith" },
+//   { id: 3, name: "Charlie Brown" },
+//   { id: 4, name: "David Miller" },
+//   { id: 5, name: "Eve Williams" },
+//   { id: 6, name: "Frank Thompson" },
+//   { id: 7, name: "Grace Hopper" },
+//   { id: 8, name: "Hannah White" },
+//   { id: 9, name: "Ivy Green" },
+//   { id: 10, name: "Jack Black" },
+//   { id: 11, name: "Kevin Brown" },
+//   { id: 12, name: "Lily Adams" },
+//   { id: 13, name: "Michael Scott" },
+// ];
 
 const Chat = () => {
   const [selectedContact, setSelectedContact] = useState(null);
-  const [messages, setMessages] = useState({});
+  const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const chatEndRef = useRef(null);
+  const [conversations, setConversations] = useState([]);
 
-  // Filter contacts based on search term
-  const filteredContacts = contacts.filter((contact) =>
-    contact.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const { user } = useSelector((state) => state.auth);
 
-  // Scroll to the latest message
+  useEffect(() => {
+    const loadConversations = async () => {
+      try {
+        const conversations = await fetchUsers();
+        // Handle conversations (e.g., set state)
+        setConversations(conversations);
+      } catch (error) {
+        console.error("Error loading conversations:", error);
+      }
+    };
+    loadConversations();
+  }, []);
+
+  useEffect(() => {
+    if (selectedContact) {
+      const loadMessages = async () => {
+        try {
+          const messages = await fetchMessages(selectedContact._id);
+          console.log(messages);
+          setMessages(messages);
+          socket.emit("joinChat", selectedContact.id);
+        } catch (error) {
+          console.error("Error loading messages:", error);
+        }
+      };
+      loadMessages();
+    }
+  }, [selectedContact]);
+
+  useEffect(() => {
+    socket.on("messageReceived", (message) => {
+      setMessages((prevMessages) => [...prevMessages, message]);
+    });
+
+    return () => {
+      socket.off("messageReceived");
+    };
+  }, []);
+
   useEffect(() => {
     if (chatEndRef.current) {
       chatEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [messages[selectedContact?.id]]);
+  }, [messages]);
 
   const handleSelectContact = (contact) => {
     setSelectedContact(contact);
-    if (!messages[contact.id]) {
-      setMessages((prev) => ({
-        ...prev,
-        [contact.id]: [{ text: `Hello, ${contact.name}!`, sender: "bot" }],
-      }));
+  };
+
+  const handleSendMessage = async () => {
+    if (newMessage.trim() === "") return;
+    try {
+      // console.log("selectedContact", selectedContact);
+      const message = await sendMessage(selectedContact._id, newMessage);
+      setMessages((prevMessages) => [...prevMessages, message]);
+      socket.emit("sendMessage", message);
+      setNewMessage("");
+    } catch (error) {
+      console.error("Error sending message:", error);
     }
   };
 
-  const handleSendMessage = () => {
-    if (newMessage.trim() && selectedContact) {
-      const updatedMessages = {
-        ...messages,
-        [selectedContact.id]: [
-          ...(messages[selectedContact.id] || []),
-          { text: newMessage, sender: "user" },
-        ],
-      };
-      setMessages(updatedMessages);
-      setNewMessage("");
-    }
-  };
+  const filteredconversations = conversations.filter((contact) =>
+    contact.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
-    <div className="flex flex-col lg:flex-row w-full h-screen bg-gray-900 text-gray-300 ml-40 mr-[20rem]">
+    <div className="flex flex-col lg:flex-row w-full h-screen bg-gray-900 text-gray-300 ml-40 mr-[20rem] pr-60 pb-40 fixed">
       {/* Sidebar Contact List */}
       <div className="w-full lg:w-1/3 bg-gray-800 border-r border-gray-700">
-        <h2 className="p-4 text-xl font-bold">Contacts</h2>
+        <h2 className="p-4 text-xl font-bold">conversations</h2>
 
         {/* Search Bar */}
         <div className="p-4">
           <input
             type="text"
             className="w-full bg-gray-700 text-gray-200 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Search contacts..."
+            placeholder="Search conversations..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
 
         {/* Scrollable Contact List */}
-        <ul className="space-y-2 overflow-y-auto h-[calc(100vh-12rem)]">
-          {filteredContacts.map((contact) => (
+        <ul className="space-y-2 overflow-y-auto h-full">
+          {filteredconversations.map((contact) => (
             <li
               key={contact.id}
               onClick={() => handleSelectContact(contact)}
               className={`p-4 cursor-pointer transition-colors ${
-                selectedContact?.id === contact.id
+                selectedContact?._id === contact._id
                   ? "bg-blue-700"
                   : "hover:bg-gray-700"
               }`}
@@ -96,7 +140,7 @@ const Chat = () => {
 
       {/* Chat Box */}
       {selectedContact ? (
-        <div className="flex-1 flex flex-col bg-gray-800">
+        <div className="flex-1 flex flex-col bg-gray-800 ">
           {/* Chat Header */}
           <div className="flex items-center justify-between p-4 bg-gray-900 border-b border-gray-700">
             <h3 className="text-lg font-bold">{selectedContact.name}</h3>
@@ -109,22 +153,22 @@ const Chat = () => {
           </div>
 
           {/* Chat Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
-            {(messages[selectedContact.id] || []).map((msg, index) => (
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 max-h-">
+            {messages.map((msg, index) => (
               <div
                 key={index}
                 className={`flex ${
-                  msg.sender === "user" ? "justify-end" : "justify-start"
+                  msg.sender._id === user._id ? "justify-end" : "justify-start"
                 }`}
               >
                 <div
                   className={`max-w-xs p-3 rounded-lg ${
-                    msg.sender === "user"
+                    msg.sender._id === user._id
                       ? "bg-blue-600 text-white"
                       : "bg-gray-700 text-gray-300"
                   }`}
                 >
-                  {msg.text}
+                  {msg.content}
                 </div>
               </div>
             ))}

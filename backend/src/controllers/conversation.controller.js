@@ -172,7 +172,7 @@ const addToGroup = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = {
+export {
   accessConversation,
   fetchChats,
   createGroupChat,

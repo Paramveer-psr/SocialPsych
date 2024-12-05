@@ -86,7 +86,7 @@ const commentOnPost = asyncHandler(async (req, res) => {
 
 const getUserPosts = asyncHandler(async (req, res) => {
   const { username } = req.params;
-  console.log(username);
+  // console.log(username);
 
   const user = await User.findOne({ username });
   if (!user) {
