@@ -4,6 +4,7 @@ import { signUpRoute } from "../utils/ApiRoutes";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { checkAuth, setUser } from "../store/slices/authSlice";
+import BeatLoader from "react-spinners/BeatLoader";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ const SignUp = () => {
     confirmPassword: "",
   });
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const handleInput = (event) => {
     setValues({ ...values, [event.target.name]: event.target.value });
@@ -60,6 +62,7 @@ const SignUp = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (handleValidation()) {
+      setLoading(true);
       try {
         const { username, password, email } = values;
         const { data } = await axios.post(
@@ -74,6 +77,7 @@ const SignUp = () => {
 
         if (data.success === false) {
           console.error(data.message || "An error occurred");
+          setLoading(false);
           // Optionally, handle specific errors from the response
         } else {
           dispatch(checkAuth());
@@ -83,6 +87,8 @@ const SignUp = () => {
       } catch (error) {
         console.error("Signup failed:", error);
         // Optionally, handle network or server errors
+      } finally {
+        setLoading(false);
       }
     }
   };
@@ -215,12 +221,18 @@ const SignUp = () => {
                     </p>
                   )}
                 </div>
-                <button
-                  type="submit"
-                  className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                >
-                  Sign Up
-                </button>
+                {loading ? (
+                  <center>
+                    <BeatLoader />
+                  </center>
+                ) : (
+                  <button
+                    type="submit"
+                    className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  >
+                    Sign Up
+                  </button>
+                )}
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                   Already have an account?{" "}
                   <Link

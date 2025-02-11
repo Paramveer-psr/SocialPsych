@@ -1,6 +1,9 @@
 import React, { useState } from "react";
-
+import { formatDistanceToNow } from "date-fns";
 const Post = ({ post }) => {
+  const relativeTime = formatDistanceToNow(new Date(post.createdAt), {
+    addSuffix: true,
+  });
   return (
     <div className="pl-10 bg-gray-900 ">
       <main className="h-full w-full bg-gray-900 flex items-center justify-center">
@@ -17,7 +20,7 @@ const Post = ({ post }) => {
                   {post.user.username}
                 </b>
                 <time datetime="06-08-21" className="text-gray-400 text-xs">
-                  {post.createdAt}
+                  {relativeTime}
                 </time>
               </div>
             </div>

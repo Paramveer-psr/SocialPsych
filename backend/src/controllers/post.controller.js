@@ -10,6 +10,9 @@ import { User } from "../models/user.model.js"; // Adjust the path as necessary
 const createPost = asyncHandler(async (req, res) => {
   const { caption } = req.body;
   const mediaPath = req.file?.path; // Use req.file instead of req.files
+  if (!caption) {
+    throw new ApiError(400, "Caption cannot be empty");
+  }
 
   if (!mediaPath) {
     throw new ApiError(400, "Image not Uploaded");

@@ -5,12 +5,14 @@ import { signInRoute } from "../utils/ApiRoutes";
 import { checkAuth, setUser } from "../store/slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import cookie from "js-cookie";
+import BeatLoader from "react-spinners/BeatLoader";
 
 const SignIn = () => {
   const [values, setValues] = useState({ username: "", password: "" });
   const [errors, setErrors] = useState({ username: "", password: "" });
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
   const handleInput = (event) => {
     setValues({ ...values, [event.target.name]: event.target.value });
@@ -37,19 +39,27 @@ const SignIn = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (handleValidation()) {
+      setLoading(true);
       const { username, password } = values;
-      const { data } = await axios.post(
-        signInRoute,
-        { username, password },
-        { withCredentials: true }
-      );
-      // console.log(data);
-      if (data.success === false) {
-        return;
+      try {
+        const { data } = await axios.post(
+          signInRoute,
+          { username, password },
+          { withCredentials: true }
+        );
+        if (data.success === false) {
+          setErrors((prev) => ({ ...prev, general: "Invalid credentials" }));
+          setLoading(false);
+          return;
+        }
+        dispatch(checkAuth());
+        dispatch(setUser(data.message.user));
+        navigate("/");
+      } catch (error) {
+        setErrors((prev) => ({ ...prev, general: "An error occurred" }));
+      } finally {
+        setLoading(false);
       }
-      dispatch(checkAuth());
-      dispatch(setUser(data.message.user));
-      navigate("/");
     }
   };
 
@@ -121,7 +131,7 @@ const SignIn = () => {
                 <p className="mt-1 text-sm text-red-500">{errors.general}</p>
               )}
               <div className="flex items-center justify-between">
-                <div className="flex items-start">
+                {/* <div className="flex items-start">
                   <div className="flex items-center h-5">
                     <input
                       id="remember"
@@ -139,7 +149,7 @@ const SignIn = () => {
                       Remember me
                     </label>
                   </div>
-                </div>
+                </div> */}
                 <a
                   href="#"
                   className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
@@ -147,12 +157,18 @@ const SignIn = () => {
                   Forgot password?
                 </a>
               </div>
-              <button
-                type="submit"
-                className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-              >
-                Sign in
-              </button>
+              {loading ? (
+                <center>
+                  <BeatLoader color="white" />
+                </center>
+              ) : (
+                <button
+                  type="submit"
+                  className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                >
+                  Sign in
+                </button>
+              )}
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Don’t have an account yet?{" "}
                 <Link

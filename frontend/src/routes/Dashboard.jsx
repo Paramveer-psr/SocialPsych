@@ -4,7 +4,7 @@ import { getFeedPosts } from "../utils/ApiRoutes";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { getPostsStart, getPostsSuccess } from "../store/slices/postSlice";
-import Loader from "../components/Loader/Loader";
+import BeatLoader from "react-spinners/BeatLoader";
 function Dashboard() {
   const dispatch = useDispatch();
   const { posts, status } = useSelector((state) => state.post);
@@ -24,7 +24,9 @@ function Dashboard() {
   return (
     <div className="ml-64">
       {status == "loading" ? (
-        <Loader />
+        <center>
+          <BeatLoader color="white" />
+        </center>
       ) : (
         posts.map((post) => <Post key={post.id} post={post} />)
       )}

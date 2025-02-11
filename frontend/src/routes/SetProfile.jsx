@@ -7,6 +7,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setUser, setProfileStatus } from "../store/slices/authSlice";
 import { useSelector } from "react-redux";
+import BeatLoader from "react-spinners/BeatLoader";
 
 const SetProfile = () => {
   const [profilePhoto, setProfilePhoto] = useState("");
@@ -16,6 +17,7 @@ const SetProfile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const [loading, setLoading] = useState(false);
 
   const handlePhotoUpload = (e) => {
     const file = e.target.files[0];
@@ -31,6 +33,7 @@ const SetProfile = () => {
     if (!handleValidation()) {
       return;
     }
+    setLoading(true);
     // console.log(name, bio, gender, profilePhoto);
     const formData = new FormData();
     formData.append("name", name);
@@ -55,7 +58,7 @@ const SetProfile = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(data);
+      // console.log(data);
       // Handle the response data
       if (data.success === true) {
         dispatch(setUser(data.message));
@@ -64,6 +67,8 @@ const SetProfile = () => {
       }
     } catch (error) {
       console.error("Error setting profile:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -198,7 +203,13 @@ const SetProfile = () => {
                 onClick={handleSave}
                 className="w-full p-3 bg-indigo-500 hover:bg-indigo-600 rounded-lg font-semibold text-white transition"
               >
-                Save Changes
+                {loading ? (
+                  <center>
+                    <BeatLoader color="white" />
+                  </center>
+                ) : (
+                  "Save"
+                )}
               </motion.button>
             </div>
           </div>
