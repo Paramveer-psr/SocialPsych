@@ -60,13 +60,13 @@ const signUp = asyncHandler(async (req, res) => {
 
   const options = {
     httpOnly: true,
-    sameSite: "Strict",
+    sameSite: "None",
     secure: true,
   };
 
   return res
     .status(200)
-    .cookie("accessToken", accessToken)
+    .cookie("accessToken", accessToken, { sameSite: "None" })
     .cookie("refreshToken", refreshToken, options)
     .json(
       new ApiResponse(200, "User Registered Successfully", {
@@ -102,12 +102,12 @@ const signIn = asyncHandler(async (req, res) => {
 
   const options = {
     httpOnly: true,
-    sameSite: "Strict",
+    sameSite: "None",
     secure: true,
   };
   return res
     .status(200)
-    .cookie("accessToken", accessToken)
+    .cookie("accessToken", accessToken, { sameSite: "None" })
     .cookie("refreshToken", refreshToken, options)
     .json(
       new ApiResponse(200, "Sign-In Successfully", {
