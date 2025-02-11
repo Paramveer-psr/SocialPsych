@@ -11,6 +11,7 @@ import { io } from "socket.io-client";
 import SetProfile from "./routes/SetProfile";
 import Chat from "./routes/Chat";
 import CreatePost from "./routes/CreatePost";
+import { host } from "./utils/ApiRoutes";
 
 function App() {
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
-    const socket = io("http://localhost:8000");
+    const socket = io(host);
     socket.on("connection", () => {
       console.log("A user connected", socket.id);
     });
