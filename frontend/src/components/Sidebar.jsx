@@ -7,12 +7,10 @@ import {
   ListItemPrefix,
 } from "@material-tailwind/react";
 import {
-  PresentationChartBarIcon,
-  ShoppingBagIcon,
+  ChatBubbleLeftIcon,
   UserCircleIcon,
-  Cog6ToothIcon,
-  InboxIcon,
-  PowerIcon,
+  PencilSquareIcon,
+  HomeIcon,
 } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
 
@@ -24,7 +22,6 @@ function Sidebar() {
   };
 
   return (
-    
     <div className="fixed top-16 left-0 h-full bg-gray-900 shadow-lg z-10">
       {" "}
       {/* Adjusted top for header */}
@@ -33,18 +30,18 @@ function Sidebar() {
           isExpanded ? "w-64" : "w-20"
         }`} // Sidebar expands to 64px width
       >
-        <button
+        {/* <button
           className="text-white p-2 focus:outline-none"
           onClick={toggleSidebar}
         >
-          {/* Toggle Button */}
+         
           {isExpanded ? "<" : ">"}
-        </button>
+        </button> */}
         <List className="space-y-6 mt-4">
           <ListItem className="flex items-center">
             <Link to="/">
               <ListItemPrefix>
-                <PresentationChartBarIcon className="h-8 w-8 text-white hover:scale-125 hover:text-blue-500 transition-transform duration-300" />
+                <HomeIcon className="h-8 w-8 text-white hover:scale-125 hover:text-blue-500 transition-transform duration-300" />
               </ListItemPrefix>
             </Link>
             {isExpanded && <span className="text-white ml-4">Dashboard</span>}{" "}
@@ -52,9 +49,11 @@ function Sidebar() {
           </ListItem>
 
           <ListItem className="flex items-center">
-            <ListItemPrefix>
-              <ShoppingBagIcon className="h-8 w-8 text-white hover:scale-125 hover:text-blue-500 transition-transform duration-300" />
-            </ListItemPrefix>
+            <Link to="/create">
+              <ListItemPrefix>
+                <PencilSquareIcon className="h-8 w-8 text-white hover:scale-125 hover:text-blue-500 transition-transform duration-300" />
+              </ListItemPrefix>
+            </Link>
             {isExpanded && <span className="text-white ml-4">E-Commerce</span>}{" "}
             {/* Label */}
           </ListItem>
@@ -62,7 +61,7 @@ function Sidebar() {
           <ListItem className="flex items-center">
             <Link to="/chat">
               <ListItemPrefix>
-                <InboxIcon className="h-8 w-8 text-white hover:scale-125 hover:text-blue-500 transition-transform duration-300" />
+                <ChatBubbleLeftIcon className="h-8 w-8 text-white hover:scale-125 hover:text-blue-500 transition-transform duration-300" />
               </ListItemPrefix>
             </Link>
             {isExpanded && <span className="text-white ml-4">Inbox</span>}{" "}
@@ -72,28 +71,13 @@ function Sidebar() {
           <ListItem className="flex items-center">
             <Link to="/profile">
               <ListItemPrefix>
-                <Avatar className="h-8 w-8 text-white hover:scale-125 hover:text-blue-500 transition-transform duration-300" />
+                <UserCircleIcon className="h-8 w-8 text-white hover:scale-125 hover:text-blue-500 transition-transform duration-300" />
               </ListItemPrefix>
             </Link>
             {isExpanded && <span className="text-white ml-4">Profile</span>}{" "}
             {/* Label */}
           </ListItem>
 
-          <ListItem className="flex items-center">
-            <ListItemPrefix>
-              <Cog6ToothIcon className="h-8 w-8 text-white hover:scale-125 hover:text-blue-500 transition-transform duration-300" />
-            </ListItemPrefix>
-            {isExpanded && <span className="text-white ml-4">Settings</span>}{" "}
-            {/* Label */}
-          </ListItem>
-
-          <ListItem className="flex items-center">
-            <ListItemPrefix>
-              <PowerIcon className="h-8 w-8 text-white hover:scale-125 hover:text-red-500 transition-transform duration-300" />
-            </ListItemPrefix>
-            {isExpanded && <span className="text-white ml-4">Log Out</span>}{" "}
-            {/* Label */}
-          </ListItem>
           <ListItem>
             <Avatar />
           </ListItem>

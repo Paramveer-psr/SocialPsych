@@ -15,6 +15,7 @@ const authSlice = createSlice({
       cookies.remove("accessToken") && cookies.remove("refreshToken");
       state.isAuthenticated = false;
       state.user = null;
+      state.isProfileSet = false;
     },
     checkAuth(state) {
       const token = cookies.get("accessToken");
@@ -25,17 +26,18 @@ const authSlice = createSlice({
       }
     },
     checkProfile(state, action) {
-      if (state.user.isProfileSet) {
-        state.isProfileSet = true;
-      } else {
-        state.isProfileSet = false;
-      }
+      state.isProfileSet = state.user?.isProfileSet || false;
     },
     setUser(state, action) {
       state.user = action.payload;
+      state.isProfileSet = action.payload?.isProfileSet || false;
+    },
+    setProfileStatus(state, action) {
+      state.isProfileSet = action.payload;
     },
   },
 });
 
-export const { signOut, checkAuth, setUser, checkProfile } = authSlice.actions;
+export const { signOut, checkAuth, checkProfile, setUser, setProfileStatus } =
+  authSlice.actions;
 export default authSlice.reducer;

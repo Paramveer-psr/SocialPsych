@@ -10,6 +10,7 @@ import ProfilePage from "./routes/ProfilePage";
 import { io } from "socket.io-client";
 import SetProfile from "./routes/SetProfile";
 import Chat from "./routes/Chat";
+import CreatePost from "./routes/CreatePost";
 
 function App() {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ function App() {
   useEffect(() => {
     dispatch(checkAuth());
     dispatch(checkProfile());
+    // console.log(isProfileSet);
   }, [dispatch]);
 
   useEffect(() => {
@@ -52,6 +54,7 @@ function App() {
                     <Route path="/" element={<Dashboard />} />
                     <Route path="/profile" element={<ProfilePage />} />
                     <Route path="/chat" element={<Chat />} />
+                    <Route path="/create" element={<CreatePost />} />
                   </Route>
                   <Route path="*" element={<Navigate to="/" />} />
                 </>

@@ -10,10 +10,12 @@ const messageSchema = new Schema(
       type: String,
       required: true,
     },
-    conversation: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Conversation",
-    },
+    conversation: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Conversation",
+      },
+    ],
     readBy: [
       {
         type: mongoose.Schema.Types.ObjectId,

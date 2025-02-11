@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 import Welcome from "../components/Welcome";
 import { setProfileRoute } from "../utils/ApiRoutes";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setUser, setProfileStatus } from "../store/slices/authSlice";
+import { useSelector } from "react-redux";
 
 const SetProfile = () => {
   const [profilePhoto, setProfilePhoto] = useState("");
@@ -11,6 +14,8 @@ const SetProfile = () => {
   const [name, setName] = useState("");
   const [gender, setGender] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
 
   const handlePhotoUpload = (e) => {
     const file = e.target.files[0];
@@ -26,7 +31,7 @@ const SetProfile = () => {
     if (!handleValidation()) {
       return;
     }
-    console.log(name, bio, gender, profilePhoto);
+    // console.log(name, bio, gender, profilePhoto);
     const formData = new FormData();
     formData.append("name", name);
     formData.append("bio", bio);
@@ -35,20 +40,31 @@ const SetProfile = () => {
       formData.append("media", profilePhoto);
     }
 
-    console.log(formData);
-    const { data } = await axios.post(
-      setProfileRoute,
-      formData,
-      {
+    // for (let [key, value] of formData.entries()) {
+    //   console.log(key, value);
+    // }
+
+    try {
+      const token = document.cookie.replace(
+        /(?:(?:^|.*;\s*)accessToken\s*\=\s*([^;]*).*$)|^.*$/,
+        "$1"
+      );
+      const { data } = await axios.post(setProfileRoute, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
         },
-      },
-      { withCredentials: true }
-    );
-
-    console.log(data);
-    // navigate("/");
+      });
+      console.log(data);
+      // Handle the response data
+      if (data.success === true) {
+        dispatch(setUser(data.message));
+        dispatch(setProfileStatus(true));
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Error setting profile:", error);
+    }
   };
 
   return (
@@ -93,6 +109,7 @@ const SetProfile = () => {
                   type="file"
                   onChange={handlePhotoUpload}
                   className="hidden"
+                  accept="image/*"
                 />
                 <svg
                   className="w-5 h-5 text-white"

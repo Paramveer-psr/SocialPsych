@@ -8,9 +8,9 @@ import { Conversation } from "../models/conversation.model.js";
 //@access          Protected
 const allMessages = asyncHandler(async (req, res) => {
   try {
-    const messages = await Message.find({ conversation: req.params.chatId })
-      .populate("sender", "name pic email")
-      .populate("conversation");
+    const messages = await Message.find({
+      conversation: { $all: [req.params.chatId, req.user._id] },
+    }).populate("sender", "_id name");
     res.json(messages);
   } catch (error) {
     res.status(400);
@@ -23,7 +23,7 @@ const allMessages = asyncHandler(async (req, res) => {
 //@access          Protected
 const sendMessage = asyncHandler(async (req, res) => {
   const { content, chatId } = req.body;
-  console.log(content, chatId);
+  // console.log(content, chatId);
 
   if (!content || !chatId) {
     console.log("Invalid data passed into request");
@@ -33,7 +33,7 @@ const sendMessage = asyncHandler(async (req, res) => {
   var newMessage = {
     sender: req.user._id,
     content: content,
-    conversation: chatId,
+    conversation: [req.user._id, chatId],
   };
 
   try {

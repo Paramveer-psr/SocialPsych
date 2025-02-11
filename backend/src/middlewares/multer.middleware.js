@@ -1,5 +1,6 @@
 import multer from "multer";
 import path from "path";
+import fs from "fs";
 
 // Set storage engine
 const storage = multer.diskStorage({
@@ -52,4 +53,14 @@ export const uploadErrorHandler = (err, req, res, next) => {
   }
   // Everything went fine.
   next();
+};
+
+export const cleanupTempFile = (req, res, next) => {
+  // Skip if no file was uploaded
+  if (!req.file) return next();
+
+  fs.unlink(req.file.path, (err) => {
+    if (err) console.error("Error deleting temp file:", err);
+    next();
+  });
 };

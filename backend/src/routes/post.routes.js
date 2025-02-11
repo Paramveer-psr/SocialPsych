@@ -8,13 +8,21 @@ import {
 } from "../controllers/post.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 import {
+  cleanupTempFile,
   upload,
   uploadErrorHandler,
 } from "../middlewares/multer.middleware.js";
 
 const router = Router();
 
-router.post("/create", verifyJWT, upload, uploadErrorHandler, createPost);
+router.post(
+  "/create",
+  verifyJWT,
+  upload,
+  uploadErrorHandler,
+  createPost,
+  cleanupTempFile
+);
 router.get("/", verifyJWT, getPosts);
 router.get("/user/:username", verifyJWT, getUserPosts);
 router.post("/like/:postId", verifyJWT, likePost);

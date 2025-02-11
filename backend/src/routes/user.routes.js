@@ -8,6 +8,7 @@ import {
 } from "../controllers/user.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 import {
+  cleanupTempFile,
   upload,
   uploadErrorHandler,
 } from "../middlewares/multer.middleware.js";
@@ -19,7 +20,7 @@ router.route("/sign-in").post(signIn);
 router.route("/sign-out").post(verifyJWT, signOut);
 router
   .route("/set-profile")
-  .post(verifyJWT, upload, uploadErrorHandler, setProfile);
+  .post(verifyJWT, upload, uploadErrorHandler, setProfile, cleanupTempFile);
 router.route("/users").get(verifyJWT, getAllUsers);
 
 export default router;

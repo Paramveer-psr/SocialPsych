@@ -40,8 +40,11 @@ const Chat = () => {
   useEffect(() => {
     const loadConversations = async () => {
       try {
-        const conversations = await fetchUsers();
+        let conversations = await fetchUsers();
         // Handle conversations (e.g., set state)
+        // console.log(conversations);
+        conversations = conversations.filter((u) => u._id !== user._id);
+        // console.log(conversations);
         setConversations(conversations);
       } catch (error) {
         console.error("Error loading conversations:", error);
@@ -54,6 +57,7 @@ const Chat = () => {
     if (selectedContact) {
       const loadMessages = async () => {
         try {
+          // console.log("selectedContact", selectedContact);
           const messages = await fetchMessages(selectedContact._id);
           console.log(messages);
           setMessages(messages);
