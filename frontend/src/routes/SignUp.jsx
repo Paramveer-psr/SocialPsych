@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { checkAuth, setUser } from "../store/slices/authSlice";
 import BeatLoader from "react-spinners/BeatLoader";
+import cookie from "js-cookie";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -80,6 +81,7 @@ const SignUp = () => {
           setLoading(false);
           // Optionally, handle specific errors from the response
         } else {
+          cookie.set("accessToken", data.message.accessToken);
           dispatch(checkAuth());
           dispatch(setUser(data.message.user));
           navigate("/set-profile");
