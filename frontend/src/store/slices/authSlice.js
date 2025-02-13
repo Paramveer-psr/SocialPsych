@@ -12,7 +12,7 @@ const authSlice = createSlice({
   },
   reducers: {
     signOut(state) {
-      cookies.remove("accessToken") && cookies.remove("refreshToken");
+      cookies.remove("accessToken");
       state.isAuthenticated = false;
       state.user = null;
       state.isProfileSet = false;

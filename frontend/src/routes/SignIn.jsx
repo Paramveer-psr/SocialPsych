@@ -52,6 +52,7 @@ const SignIn = () => {
           setLoading(false);
           return;
         }
+        cookie.set("accessToken", data.message.accessToken);
         dispatch(checkAuth());
         dispatch(setUser(data.message.user));
         navigate("/");
